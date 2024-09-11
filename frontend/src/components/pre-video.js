@@ -41,6 +41,15 @@ function PreVideo({ setLink }) {
         />
       </div>
 
+      <div className='buttons'>
+        <button onClick={handleFileClear} className="file-clear">
+          <i class="fa-regular fa-circle-xmark"></i>Clear
+        </button>
+        <button className="file-upload">
+          <i class="fa-regular fa-circle-up"></i>Upload
+        </button>
+      </div>
+
       <input
         type="text"
         placeholder="Insert YouTube link here"
