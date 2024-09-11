@@ -1,23 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+
+import PreVideo from './components/pre-video';
+import PostVideo from './components/post-video';
 
 function App() {
+  const [URL, setURL] = useState('');
+
+  console.log(URL);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <PreVideo setLink={setURL}/>
+      <PostVideo link={URL}/>
     </div>
   );
 }

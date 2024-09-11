@@ -1,0 +1,48 @@
+.pre-video {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: auto;
+  background-color: whitesmoke;
+}
+
+.file-drop-area {
+  width: 45%;
+  height: 30%;
+  border: 3px dashed #ccc;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.file-drop-area p {
+  font-size: 18px;
+  color: #666;
+}
+
+.file-drop-area input[type="file"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.youtube-input {
+  width: 45%;
+  padding: 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+}
+
+.youtube-input::placeholder {
+  font-size: 16px;
+  color: #999;
+}
