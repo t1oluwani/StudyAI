@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function FileDrop() {
+function FileDrop( { setFile } ) {
   const [fileName, setFileName] = useState('');
 
   const handleFileChange = (event) => {
@@ -16,6 +16,14 @@ function FileDrop() {
   const handleFileClear = () => {
     setFileName('');
     document.getElementById('file-input').value = '';
+  }
+
+  const handleFileUpload = () => {
+    const file = document.getElementById('file-input').files[0];
+    setFile(file);
+    handleFileClear();
+
+    console.log(file);
   }
 
   return (
@@ -37,10 +45,10 @@ function FileDrop() {
 
       <div className='buttons'>
         <button onClick={handleFileClear} className="file-clear">
-          <i class="fa-regular fa-circle-xmark"></i>Clear
+          <i className="fa-regular fa-circle-xmark"></i>Clear
         </button>
-        <button className="file-upload">
-          <i class="fa-regular fa-circle-up"></i>Upload
+        <button onClick={handleFileUpload} className="file-upload">
+          <i className="fa-regular fa-circle-up"></i>Upload
         </button>
       </div>
     </>

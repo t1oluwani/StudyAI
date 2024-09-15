@@ -3,10 +3,10 @@ import '../styling/pre-video.css';
 import FileDrop from './sub-components/file-drop';
 import LinkPaste from './sub-components/link-paste';
 
-function PreVideo({ setLink }) {
+function PreVideo({ setLink, setFile }) {
   return (
     <div className="pre-video">
-      <FileDrop/>
+      <FileDrop setFile={setFile}/>
       <LinkPaste setLink={setLink}/>
     </div>
   );
