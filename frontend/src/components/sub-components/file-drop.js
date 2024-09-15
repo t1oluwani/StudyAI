@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFile } from '@fortawesome/free-solid-svg-icons';
 
 function FileDrop( { setFile } ) {
   const [fileName, setFileName] = useState('');
@@ -30,7 +31,7 @@ function FileDrop( { setFile } ) {
     <>
       <div className="file-drop-area">
         <p>
-          {fileName ? (<> <FontAwesomeIcon icon="fa-solid fa-file"/> {fileName} </>
+          {fileName ? (<> <FontAwesomeIcon icon={faFile}/> {fileName} </>
           ) : (
             'Drop files here or Click to Upload'
           )}

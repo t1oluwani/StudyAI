@@ -9,6 +9,7 @@ function App() {
   const [MP4, setMP4] = useState('');
 
   console.log(URL);
+  console.log(MP4);
 
   return (
     <div className="App">
