@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
 
-function FileDrop( { setFile } ) {
+function FileDrop({ setFile }) {
   const [fileName, setFileName] = useState('');
 
   const handleFileChange = (event) => {
@@ -21,17 +21,21 @@ function FileDrop( { setFile } ) {
 
   const handleFileUpload = () => {
     const file = document.getElementById('file-input').files[0];
-    setFile(file);
-    handleFileClear();
+    if (file) {
+      setFile(file);
+      handleFileClear();
 
-    console.log(file);
+      console.log(file);
+    } else {
+      console.error('No file selected');
+    }
   }
 
   return (
     <>
       <div className="file-drop-area">
         <p>
-          {fileName ? (<> <FontAwesomeIcon icon={faFile}/> {fileName} </>
+          {fileName ? (<> <FontAwesomeIcon icon={faFile} /> {fileName} </>
           ) : (
             'Drop files here or Click to Upload'
           )}
