@@ -1,5 +1,8 @@
-from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import render
 
-def test_func(request):
-    return HttpResponse("Hello world!")
+def file_drop(request):
+      return render(request, 'file_drop.html')
+
+      
+

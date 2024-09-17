@@ -8,6 +8,16 @@ function FileDrop({ setFile }) {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      // if (file.size > 52428800) {
+      //   alert('File is too large. Max file size is 50MB.');
+      //   handleFileClear();
+      //   return;
+      // }
+      if (!file.type.startsWith('video/')) {
+        alert('File is not a video. Please upload a video file.');
+        handleFileClear();
+        return;
+      }
       setFileName(file.name);
     } else {
       setFileName('');
