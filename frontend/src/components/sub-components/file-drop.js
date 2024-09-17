@@ -4,6 +4,16 @@ import { faFile } from '@fortawesome/free-solid-svg-icons';
 
 function FileDrop({ setFile }) {
   const [fileName, setFileName] = useState('');
+  const api_url = 'http://127.0.0.1:8000/upload-from-file/';
+  const test_file_path = 'C:/Users/tifav/OneDrive - ualberta.ca/Desktop/Tioluwani/Anime/Anime Episodes/EP.1.v1.1080p.mp4';
+
+  const extract_audio_from_video = (file) => {
+    return
+  }
+
+  const perform_main_file_operations = (file) => {
+    extract_audio_from_video(file);
+  }
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -33,6 +43,7 @@ function FileDrop({ setFile }) {
     const file = document.getElementById('file-input').files[0];
     if (file) {
       setFile(file);
+      perform_main_file_operations(file);
       handleFileClear();
 
       console.log(file);

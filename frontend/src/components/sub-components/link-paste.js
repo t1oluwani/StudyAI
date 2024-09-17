@@ -1,4 +1,14 @@
 function LinkPaste({ setLink }) {
+  const api_url = "http://127.0.0.1:8000/upload-from-youtube/"
+  const test_link = "https://www.youtube.com/watch?v=1O0yazhqaxs"
+
+  const extract_audio_from_link = (link) => {
+    return
+  }
+
+  const perform_main_file_operations = (link) => {
+    extract_audio_from_link(link);
+  }
 
   const convertToEmbedLink = (link) => {
     if (link) {
@@ -22,6 +32,7 @@ function LinkPaste({ setLink }) {
 
       if (embedLink) {
         setLink(embedLink);
+        perform_main_file_operations(link);
         handleLinkClear();
       } else {
         console.error('NO YouTube URL Provided');

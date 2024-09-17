@@ -13,18 +13,17 @@ UPLOAD_DIR.mkdir(exist_ok=True)
 @app.post("/upload-from-file/")
 async def upload_audio(file: UploadFile = File(...)):
     try:
-        temp_file_path = UPLOAD_DIR / file.filename
-        og_file_name = file.filename
-        new_file_name = og_file_name.rsplit(".", 1)[0] + ".mp3"
+        file_path = UPLOAD_DIR / file.filename
+        audio_file_name = file.filename.rsplit(".", 1)[0] + ".mp3"
                 
-        with open(temp_file_path, "wb") as f:
+        with open(file_path, "wb") as f:
             f.write(await file.read())
         
-        audio_path = UPLOAD_DIR / new_file_name
-        audio = AudioSegment.from_file(temp_file_path)
+        audio_path = UPLOAD_DIR / audio_file_name
+        audio = AudioSegment.from_file(file_path)
         audio.export(audio_path, format="mp3")
         
-        temp_file_path.unlink() # Delete the temp file
+        # file_path.unlink() # Delete the temp file
 
         return {"audio_file": str(audio_path), "message": "Audio extracted and saved successfully."}
       
