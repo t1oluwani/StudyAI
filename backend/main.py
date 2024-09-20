@@ -25,7 +25,7 @@ async def upload_audio(file: UploadFile = File(...)):
         
         # file_path.unlink() # Delete the temp file
 
-        return {"audio_file": str(audio_path), "message": "Audio extracted and saved successfully."}
+        return {"audio_file": str(audio_file_name), "message": "Audio extracted and saved successfully."}
       
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
@@ -44,8 +44,10 @@ async def upload_audio(url: str):
             }],
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([url])
+            # ydl.download([url])
+            info = ydl.extract_info(url, download=True)
+            video_name = info.get('title', None)
 
-        return {"filename": f"{yt_dlp.utils.get_filename(ydl_opts)}", "message": "Audio downloaded and saved successfully."}
+        return {"audio_file": f"{video_name}", "message": "Audio downloaded and saved successfully."}
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
