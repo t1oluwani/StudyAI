@@ -1,15 +1,35 @@
 import os
+from pathlib import Path
+
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
-from pathlib import Path
-from pydub import AudioSegment
-import yt_dlp
+
+from pydub import AudioSegment # For audio processing
+import yt_dlp # For downloading audio from YouTube
 
 app = FastAPI()
 
-UPLOAD_DIR = Path("uploads")
-UPLOAD_DIR.mkdir(exist_ok=True)
+# CORS
+allowed_origins = [
+    "http://localhost:3000", # The domain of our StudyAI React frontend
+]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,  # Allow requests from our allowed origins (...our frontend)
+    allow_credentials=True,
+    allow_methods=["*"],     # Allow all HTTP methods
+    allow_headers=["*"],     # Allow all headers
+)
+
+# Accesses uploads directory and creates it if it doesn't exist
+UPLOAD_DIR = Path("uploads")
+UPLOAD_DIR.mkdir(exist_ok=True) 
+
+# ROUTES
+
+# Upload video and audio file from local storage (specified by path)
 @app.post("/upload-from-file/")
 async def upload_audio(file: UploadFile = File(...)):
     try:
@@ -30,6 +50,7 @@ async def upload_audio(file: UploadFile = File(...)):
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
 
+# Upload audio file from a YouTube URL (specified by link)
 @app.post("/upload-from-youtube/")
 async def upload_audio(url: str):
     try:
