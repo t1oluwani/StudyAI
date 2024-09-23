@@ -15,7 +15,7 @@ function FileDrop({ setFile }) {
       const formData = new FormData();
       formData.append('file', file);
       axios.post(api_url, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-      
+
       console.log("Audio extraction from local file successful");
     } catch (error) {
       console.error(error);
@@ -59,7 +59,7 @@ function FileDrop({ setFile }) {
       perform_main_file_operations(file);
       handleFileClear();
 
-      console.log(file);
+      // console.log(file);
     } else {
       console.error('No file selected');
     }

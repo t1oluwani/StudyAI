@@ -7,7 +7,7 @@ function LinkPaste({ setLink }) {
   const extract_audio_from_link = async(link) => {
     try {
       axios.post(api_url, null, { params: { url: link } })
-      
+
       console.log("Audio extraction from YouTube link successful");
     } catch (error) {
       console.error(error);
@@ -42,9 +42,10 @@ function LinkPaste({ setLink }) {
 
       if (embedLink) {
         // setLink(embedLink);
-        console.log(link);
         perform_main_link_operations(link);
         handleLinkClear();
+
+        // console.log(link);
       } else {
         console.error('NO YouTube URL Provided');
       }
