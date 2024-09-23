@@ -1,8 +1,18 @@
+import React from 'react';
+import axios from 'axios';
+
 function LinkPaste({ setLink }) {
   const api_url = "http://127.0.0.1:8000/upload-from-youtube/"
-  const test_link = "https://www.youtube.com/watch?v=1O0yazhqaxs"
 
-  const extract_audio_from_link = (link) => {
+  const extract_audio_from_link = async(link) => {
+    const test_youtube_url = "https://www.youtube.com/watch?v=1O0yazhqaxs"
+
+    try {
+      axios.post(api_url, null, { params: { url: test_youtube_url } })
+      console.log("Audio extraction from YouTube link successful");
+    } catch (error) {
+      console.error(error);
+    }
     return
   }
 
@@ -31,7 +41,8 @@ function LinkPaste({ setLink }) {
       const embedLink = convertToEmbedLink(link);
 
       if (embedLink) {
-        setLink(embedLink);
+        // setLink(embedLink);
+        console.log(link);
         perform_main_file_operations(link);
         handleLinkClear();
       } else {
