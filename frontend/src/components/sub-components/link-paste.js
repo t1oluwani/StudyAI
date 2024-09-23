@@ -5,10 +5,8 @@ function LinkPaste({ setLink }) {
   const api_url = "http://127.0.0.1:8000/upload-from-youtube/"
 
   const extract_audio_from_link = async(link) => {
-    const test_youtube_url = "https://www.youtube.com/watch?v=1O0yazhqaxs"
-
     try {
-      axios.post(api_url, null, { params: { url: test_youtube_url } })
+      axios.post(api_url, null, { params: { url: link } })
       console.log("Audio extraction from YouTube link successful");
     } catch (error) {
       console.error(error);
@@ -18,6 +16,8 @@ function LinkPaste({ setLink }) {
 
   const perform_main_file_operations = (link) => {
     extract_audio_from_link(link);
+    // whisper model get transcription
+    // script sent to ai model
   }
 
   const convertToEmbedLink = (link) => {
