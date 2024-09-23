@@ -1,1 +1,2 @@
-backend\uploads
+backend/uploads/*.mp3
+backend/uploads/*.mp4
