@@ -7,14 +7,14 @@ function LinkPaste({ setLink }) {
   const extract_audio_from_link = async(link) => {
     try {
       axios.post(api_url, null, { params: { url: link } })
+      
       console.log("Audio extraction from YouTube link successful");
     } catch (error) {
       console.error(error);
     }
-    return
   }
 
-  const perform_main_file_operations = (link) => {
+  const perform_main_link_operations = (link) => {
     extract_audio_from_link(link);
     // whisper model get transcription
     // script sent to ai model
@@ -43,7 +43,7 @@ function LinkPaste({ setLink }) {
       if (embedLink) {
         // setLink(embedLink);
         console.log(link);
-        perform_main_file_operations(link);
+        perform_main_link_operations(link);
         handleLinkClear();
       } else {
         console.error('NO YouTube URL Provided');

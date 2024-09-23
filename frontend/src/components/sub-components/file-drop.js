@@ -1,3 +1,7 @@
+import React from 'react';
+import axios from 'axios';
+// import fs from 'fs';
+
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
@@ -5,14 +9,23 @@ import { faFile } from '@fortawesome/free-solid-svg-icons';
 function FileDrop({ setFile }) {
   const [fileName, setFileName] = useState('');
   const api_url = 'http://127.0.0.1:8000/upload-from-file/';
-  const test_file_path = 'C:/Users/tifav/OneDrive - ualberta.ca/Desktop/Tioluwani/Anime/Anime Episodes/EP.1.v1.1080p.mp4';
 
   const extract_audio_from_video = (file) => {
-    return
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      axios.post(api_url, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+      
+      console.log("Audio extraction from local file successful");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const perform_main_file_operations = (file) => {
     extract_audio_from_video(file);
+    // whisper model get transcription
+    // script sent to ai model
   }
 
   const handleFileChange = (event) => {
