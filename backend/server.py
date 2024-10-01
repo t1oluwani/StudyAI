@@ -1,4 +1,5 @@
 import os
+import traceback
 from pathlib import Path
 from openai import OpenAI
 
@@ -21,16 +22,19 @@ client = OpenAI(api_key=api_key)
 # Mock in-memory database
 db = []
 
+
 # Models
 class Timestamps(BaseModel):
     start: float
     end: float
     text: str
 
+
 class Transcript(BaseModel):
     video_title: str
     transcript: str
     segments: list[Timestamps]
+
 
 # CORS
 allowed_origins = [
@@ -51,42 +55,56 @@ UPLOAD_DIR.mkdir(exist_ok=True)
 
 # ROUTES
 
+
 # Upload video and audio file from local storage (specified by path)
 @app.post("/upload-from-file/")
 async def upload_audio_from_file(file: UploadFile = File(...)):
     try:
         # Validate file type
         if not (file.filename.endswith(".mp3") or file.filename.endswith(".mp4")):
-            return JSONResponse(status_code=400, content={"error": "Unsupported file type"})
+            return JSONResponse(
+                status_code=400, content={"error": "Unsupported file type"}
+            )
 
-        file_path = UPLOAD_DIR / file.filename # Path for videofile in uploads directory
-        
+        file_path = (
+            UPLOAD_DIR / file.filename
+        )  # Path for videofile in uploads directory
+
         with open(file_path, "wb") as f:
-            f.write(await file.read()) 
+            f.write(await file.read())
 
         if file.filename.endswith(".mp3"):
             return {
                 "audio_file": str(file.filename),
-                "message": "Audio uploaded successfully."
+                "message": "Audio uploaded successfully.",
             }
 
         elif file.filename.endswith(".mp4"):
             # Extract audio from video and save as mp3
-            audio_file_name = file.filename.rsplit(".", 1)[0] + ".mp3"
-            audio_path = UPLOAD_DIR / audio_file_name # Path for audio file in uploads directory
-            
-            audio = AudioSegment.from_file(file_path)
-            audio.export(audio_path, format="mp3") 
+            audio_file_name = file.filename
+            audio_path = (
+                UPLOAD_DIR / audio_file_name
+            )  # Path for audio file in uploads directory
+
+            try:
+                audio = AudioSegment.from_file(file_path)
+                audio.export(audio_path, format="mp3")
+                print("Audio loaded successfully!")
+            except Exception as e:
+                print(f"Error loading audio: {e}")
 
             # file_path.unlink() # Delete the temp file
 
             return {
                 "audio_file": str(audio_file_name),
-                "message": "Audio extracted and saved successfully."
+                "message": "Audio extracted and saved successfully.",
             }
 
     except Exception as e:
+        traceback_str = traceback.format_exc()
+        print(traceback_str)  # Full stack trace for extensive debugging
         return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
+
 
 # Upload audio file from a YouTube URL (specified by link)
 @app.post("/upload-from-youtube/")
@@ -121,11 +139,11 @@ async def upload_audio_from_link(url: str):
 @app.post("/transcribe/")
 async def transcribe_audio(title: str):
     file_path = f"uploads/{title}"
-    
+
     if not os.path.exists(file_path):
-      return {"error": "File not found"}
+        return {"error": "File not found"}
     else:
-      audio_file = open(f"uploads/{title}", "rb")
+        audio_file = open(f"uploads/{title}", "rb")
 
     try:
         transcription = client.audio.transcriptions.create(
@@ -137,7 +155,7 @@ async def transcribe_audio(title: str):
     transcript = {
         "video-title": title,
         "transcript": transcription.text,
-        "segments": transcription.segments, #TODO: Extract relevant information from segments
+        "segments": transcription.segments,  # TODO: Extract relevant information from segments
     }  # Store the video title and transcript as a Transcript model
 
     db.clear()  # Clear the database so only the latest transcript is stored
