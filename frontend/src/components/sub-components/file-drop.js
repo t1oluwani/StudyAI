@@ -33,7 +33,7 @@ function FileDrop({ setFile }) {
     }
   }
 
-  const transcribe_audio_from_file = async (audio_title) => {    
+  const transcribe_audio_from_file = async (audio_title) => {  
     try {
       console.log("Transcribing:", audio_title);
       axios.post(transcribe_url, null, { params: { title: audio_title } });
@@ -50,7 +50,12 @@ function FileDrop({ setFile }) {
   const perform_main_file_operations = async (file) => {
     console.log("Performing main file operations");
     const audio_title = await extract_audio_from_file(file); // Wait for extraction
-    transcribe_audio_from_file(audio_title);
+    if (audio_title === null) {
+      console.log("Main file operations stopped due to audio extraction failure"); 
+      return;
+    } else {
+      transcribe_audio_from_file(audio_title);
+    }
     // script sent to ai model
   }
  

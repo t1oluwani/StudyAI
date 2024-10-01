@@ -85,13 +85,16 @@ async def upload_audio_from_file(file: UploadFile = File(...)):
                 UPLOAD_DIR / audio_file_name
             )  # Path for audio file in uploads directory
 
-            try: # TODO: Currently only works for mp4 files, struggle with mp3 files
-                # audio = AudioSegment.from_file(file_path)
-                # audio.export(audio_path, format="mp3")
+            try: 
+                audio = AudioSegment.from_file(file_path)
+                audio.export(audio_path, format="mp3")
                 print("Audio was loaded successfully!")
             except Exception as e:
                 print(f"Error loading audio: {e}")
-                return
+                return {
+                  "audio_file": None,
+                  "message": "Error loading audio from video."
+                }
 
             # file_path.unlink() # Delete the temp file
 
