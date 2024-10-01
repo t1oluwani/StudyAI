@@ -1,10 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import { useState } from 'react';
+
 
 function LinkPaste({ setLink }) {
   const upload_url = "http://127.0.0.1:8000/upload-from-youtube/"
   const transcribe_url = "http://127.0.0.1:8000/transcribe/"
-  const [transcript, setTranscript] = useState('');
+  const [captioning, setCaptioning] = useState([]);
 
   const extract_audio_from_link = async(link) => {
     try {
@@ -25,8 +27,8 @@ function LinkPaste({ setLink }) {
       await axios.post(transcribe_url, null, { params: { title: audio_title } })
 
       const response = await axios.get(transcribe_url, { params: { title: audio_title } })
-      setTranscript(response.data[0].transcript);
       console.log("Transcript:", response.data[0].transcript);
+      setCaptioning(response.data[0].segments);
 
       console.log("Transcription successful:", audio_title);
     } catch (error) {
