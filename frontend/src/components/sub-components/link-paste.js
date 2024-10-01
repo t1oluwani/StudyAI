@@ -6,7 +6,9 @@ import { useState } from 'react';
 function LinkPaste({ setLink }) {
   const upload_url = "http://127.0.0.1:8000/upload-from-youtube/"
   const transcribe_url = "http://127.0.0.1:8000/transcribe/"
-  const [captioning, setCaptioning] = useState([]);
+
+  const [transcript, setTranscript] = useState('');
+  const [verboseTranscript, setVerboseTranscript] = useState([]);
 
   const extract_audio_from_link = async(link) => {
     try {
@@ -28,8 +30,9 @@ function LinkPaste({ setLink }) {
 
       const response = await axios.get(transcribe_url, { params: { title: audio_title } })
       console.log("Transcript:", response.data[0].transcript);
-      setCaptioning(response.data[0].segments);
-
+      setTranscript(response.data[0].transcript);
+      setVerboseTranscript(response.data[0].segments);
+      
       console.log("Transcription successful:", audio_title);
     } catch (error) {
       console.error(error);
