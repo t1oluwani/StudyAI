@@ -85,7 +85,7 @@ async def upload_audio_from_file(file: UploadFile = File(...)):
                 UPLOAD_DIR / audio_file_name
             )  # Path for audio file in uploads directory
 
-            try:                                                 # TODO: Currently only works for mp4 files, struggle with mp3 files
+            try: # TODO: Currently only works for mp4 files, struggle with mp3 files
                 # audio = AudioSegment.from_file(file_path)
                 # audio.export(audio_path, format="mp3")
                 print("Audio was loaded successfully!")

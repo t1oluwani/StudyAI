@@ -19,7 +19,7 @@ function LinkPaste({ setLink }) {
     }
   }
 
-  const trancribe_audio_from_video = async (audio_title) => {
+  const transcribe_audio_from_link = async (audio_title) => {
     audio_title = audio_title + '.mp3'; // Add file extension
     try {
       console.log("Transcribing:", audio_title);
@@ -37,7 +37,7 @@ function LinkPaste({ setLink }) {
   const perform_main_link_operations = async (link) => {
     console.log("Performing main file operations");
     const audio_title = await extract_audio_from_link(link); // Wait for extraction
-    await trancribe_audio_from_video(audio_title); // Wait for transcription
+    await transcribe_audio_from_link(audio_title); // Wait for transcription
     // script sent to AI model
 }
 

@@ -17,10 +17,11 @@ function FileDrop({ setFile }) {
       formData.append('file', file);
 
       console.log("Extracting audio from:", file.name);
-      const response = axios.post(upload_url, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+      const response = await axios.post(upload_url, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 
       if (response !== undefined) {
         console.log("Audio extraction successful:", file.name);
+
         return response.data.audio_file;
       } else {
         console.log("Audio extraction failed:", file.name);
@@ -32,13 +33,10 @@ function FileDrop({ setFile }) {
     }
   }
 
-  const trancribe_audio_from_video = async (audio_title) => {
-    if (audio_title === null) return;
-    
-    audio_title = audio_title + '.mp3'; // Add file extension
+  const transcribe_audio_from_file = async (audio_title) => {    
     try {
       console.log("Transcribing:", audio_title);
-      await axios.post(transcribe_url, null, { params: { title: audio_title } });
+      axios.post(transcribe_url, null, { params: { title: audio_title } });
 
       const response = await axios.get(transcribe_url, { params: { title: audio_title } });
       console.log("Transcript:", response.data[0].transcript);
@@ -52,8 +50,7 @@ function FileDrop({ setFile }) {
   const perform_main_file_operations = async (file) => {
     console.log("Performing main file operations");
     const audio_title = await extract_audio_from_file(file); // Wait for extraction
-    console.log("Audio title:", audio_title);
-    // trancribe_audio_from_video(audio_title); // Wait for transcription
+    transcribe_audio_from_file(audio_title);
     // script sent to ai model
   }
  
