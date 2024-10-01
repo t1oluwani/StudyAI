@@ -1,7 +1,7 @@
 import requests
 
 api_url = "http://127.0.0.1:8000/upload-from-youtube/"
-test_youtube_url = "https://www.youtube.com/watch?v=1O0yazhqaxs"
+test_youtube_url = "https://www.youtube.com/watch?v=twTyqejxiPI"
 
 print(f"Uploading YouTube audio from: {test_youtube_url}...")
 
