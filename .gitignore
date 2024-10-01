@@ -1,2 +1,6 @@
+studyai_env/
+
+backend/key/
+
 backend/uploads/*.mp3
 backend/uploads/*.mp4

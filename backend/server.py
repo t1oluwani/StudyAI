@@ -72,3 +72,6 @@ async def upload_audio(url: str):
         return {"audio_file": f"{video_name}", "message": "Audio downloaded and saved successfully."}
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
+
+# Transcribe audio file
+@app.post("/transcribe/")
