@@ -55,7 +55,6 @@ UPLOAD_DIR.mkdir(exist_ok=True)
 
 # ROUTES
 
-
 # Upload video and audio file from local storage (specified by path)
 @app.post("/upload-from-file/")
 async def upload_audio_from_file(file: UploadFile = File(...)):
@@ -86,12 +85,13 @@ async def upload_audio_from_file(file: UploadFile = File(...)):
                 UPLOAD_DIR / audio_file_name
             )  # Path for audio file in uploads directory
 
-            try:
-                audio = AudioSegment.from_file(file_path)
-                audio.export(audio_path, format="mp3")
-                print("Audio loaded successfully!")
+            try:                                                 # TODO: Currently only works for mp4 files, struggle with mp3 files
+                # audio = AudioSegment.from_file(file_path)
+                # audio.export(audio_path, format="mp3")
+                print("Audio was loaded successfully!")
             except Exception as e:
                 print(f"Error loading audio: {e}")
+                return
 
             # file_path.unlink() # Delete the temp file
 
