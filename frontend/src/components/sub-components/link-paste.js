@@ -2,23 +2,43 @@ import React from 'react';
 import axios from 'axios';
 
 function LinkPaste({ setLink }) {
-  const api_url = "http://127.0.0.1:8000/upload-from-youtube/"
+  const upload_url = "http://127.0.0.1:8000/upload-from-youtube/"
+  const transcribe_url = "http://127.0.0.1:8000/transcribe/"
+  const [transcript, setTranscript] = useState('');
 
   const extract_audio_from_link = async(link) => {
     try {
-      axios.post(api_url, null, { params: { url: link } })
+      console.log("Extracting audio from:", link);
+      const response = await axios.post(upload_url, null, { params: { url: link } }) 
 
-      console.log("Audio extraction from YouTube link successful");
+      console.log("Audio extraction successful:", response.data.audio_file);
+      return response.data.audio_file;
     } catch (error) {
       console.error(error);
     }
   }
 
-  const perform_main_link_operations = (link) => {
-    extract_audio_from_link(link);
-    // whisper model get transcription
-    // script sent to ai model
+  const trancribe_audio_from_video = async (audio_title) => {
+    audio_title = audio_title + '.mp3'; // Add file extension
+    try {
+      console.log("Transcribing:", audio_title);
+      await axios.post(transcribe_url, null, { params: { title: audio_title } })
+
+      const response = await axios.get(transcribe_url, { params: { title: audio_title } })
+      setTranscript(response.data[0].transcript);
+      console.log("Transcript:", response.data[0].transcript);
+
+      console.log("Transcription successful:", audio_title);
+    } catch (error) {
+      console.error(error);
+    }
   }
+
+  const perform_main_link_operations = async (link) => {
+    const audio_title = await extract_audio_from_link(link); // Wait for completion
+    await trancribe_audio_from_video(audio_title); // Wait for transcription
+    // script sent to AI model
+}
 
   const convertToEmbedLink = (link) => {
     if (link) {
