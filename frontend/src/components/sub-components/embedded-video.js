@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function EmbeddedVideo({ url, mp4 }) {
-  console.log("Embedded Video URL: ", url, "Embedded Video MP4: ", mp4);
+  // console.log("Embedded Video URL: ", url, "Embedded Video MP4: ", mp4);
 
   return (
     <div className="embedded-video">

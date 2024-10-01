@@ -51,31 +51,42 @@ UPLOAD_DIR.mkdir(exist_ok=True)
 
 # ROUTES
 
-
 # Upload video and audio file from local storage (specified by path)
 @app.post("/upload-from-file/")
 async def upload_audio_from_file(file: UploadFile = File(...)):
     try:
-        file_path = UPLOAD_DIR / file.filename
-        audio_file_name = file.filename.rsplit(".", 1)[0] + ".mp3"
+        # Validate file type
+        if not (file.filename.endswith(".mp3") or file.filename.endswith(".mp4")):
+            return JSONResponse(status_code=400, content={"error": "Unsupported file type"})
 
+        file_path = UPLOAD_DIR / file.filename # Path for videofile in uploads directory
+        
         with open(file_path, "wb") as f:
-            f.write(await file.read())
+            f.write(await file.read()) 
 
-        audio_path = UPLOAD_DIR / audio_file_name
-        audio = AudioSegment.from_file(file_path)
-        audio.export(audio_path, format="mp3")
+        if file.filename.endswith(".mp3"):
+            return {
+                "audio_file": str(file.filename),
+                "message": "Audio uploaded successfully."
+            }
 
-        # file_path.unlink() # Delete the temp file
+        elif file.filename.endswith(".mp4"):
+            # Extract audio from video and save as mp3
+            audio_file_name = file.filename.rsplit(".", 1)[0] + ".mp3"
+            audio_path = UPLOAD_DIR / audio_file_name # Path for audio file in uploads directory
+            
+            audio = AudioSegment.from_file(file_path)
+            audio.export(audio_path, format="mp3") 
 
-        return {
-            "audio_file": str(audio_file_name),
-            "message": "Audio extracted and saved successfully.",
-        }
+            # file_path.unlink() # Delete the temp file
+
+            return {
+                "audio_file": str(audio_file_name),
+                "message": "Audio extracted and saved successfully."
+            }
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
-
 
 # Upload audio file from a YouTube URL (specified by link)
 @app.post("/upload-from-youtube/")

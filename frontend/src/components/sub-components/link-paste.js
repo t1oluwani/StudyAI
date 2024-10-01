@@ -7,9 +7,6 @@ function LinkPaste({ setLink }) {
   const upload_url = "http://127.0.0.1:8000/upload-from-youtube/"
   const transcribe_url = "http://127.0.0.1:8000/transcribe/"
 
-  const [transcript, setTranscript] = useState('');
-  const [verboseTranscript, setVerboseTranscript] = useState([]);
-
   const extract_audio_from_link = async(link) => {
     try {
       console.log("Extracting audio from:", link);
@@ -30,9 +27,7 @@ function LinkPaste({ setLink }) {
 
       const response = await axios.get(transcribe_url, { params: { title: audio_title } })
       console.log("Transcript:", response.data[0].transcript);
-      setTranscript(response.data[0].transcript);
-      setVerboseTranscript(response.data[0].segments);
-      
+
       console.log("Transcription successful:", audio_title);
     } catch (error) {
       console.error(error);
@@ -40,7 +35,7 @@ function LinkPaste({ setLink }) {
   }
 
   const perform_main_link_operations = async (link) => {
-    const audio_title = await extract_audio_from_link(link); // Wait for completion
+    const audio_title = await extract_audio_from_link(link); // Wait for extraction
     await trancribe_audio_from_video(audio_title); // Wait for transcription
     // script sent to AI model
 }
