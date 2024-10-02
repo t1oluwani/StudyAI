@@ -1,60 +1,24 @@
 import React from 'react';
-import axios from 'axios';
-// import fs from 'fs';
 
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
 
+import { extractAudioFromFile } from '../../services/audioExtractionService';
+import { transcribeAudioFromFile } from '../../services/transcriptionService';
+
 function FileDrop({ setFile }) {
   const [fileName, setFileName] = useState('');
-  const upload_url = 'http://127.0.0.1:8000/upload-from-file/';
-  const transcribe_url = "http://127.0.0.1:8000/transcribe/"
-
-  const extract_audio_from_file = async (file) => {
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      console.log("Extracting audio from:", file.name);
-      const response = await axios.post(upload_url, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
-
-      if (response !== undefined) {
-        console.log("Audio extraction successful:", file.name);
-
-        return response.data.audio_file;
-      } else {
-        console.log("Audio extraction failed:", file.name);
-        return null;
-      }
   
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const perform_main_operations = async (file) => {
+    console.log("Performing main operations");
 
-  const transcribe_audio_from_file = async (audio_title) => {  
-    try {
-      console.log("Transcribing:", audio_title);
-      axios.post(transcribe_url, null, { params: { title: audio_title } });
-
-      const response = await axios.get(transcribe_url, { params: { title: audio_title } });
-      console.log("Transcript:", response.data[0].transcript);
-
-      console.log("Transcription successful:", audio_title);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  const perform_main_file_operations = async (file) => {
-    console.log("Performing main file operations");
-    const audio_title = await extract_audio_from_file(file); // Wait for extraction
-    if (audio_title === null) {
-      console.log("Main file operations stopped due to audio extraction failure"); 
-      return;
+    const audio_title = await extractAudioFromFile(file); // Wait for extraction
+    if (audio_title !== null) {
+      transcribeAudioFromFile(audio_title);
     } else {
-      transcribe_audio_from_file(audio_title);
+      console.log("Main operations stopped due to audio extraction failure"); 
+      return;
     }
     // script sent to ai model
   }
@@ -87,7 +51,7 @@ function FileDrop({ setFile }) {
     const file = document.getElementById('file-input').files[0];
     if (file) {
       setFile(file);
-      perform_main_file_operations(file);
+      perform_main_operations(file);
       handleFileClear();
 
       // console.log(file);
