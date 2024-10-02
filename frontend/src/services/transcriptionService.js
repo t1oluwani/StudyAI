@@ -7,8 +7,9 @@ async function transcribeAudioFromFile(audioTitle) {
     console.log("Transcribing:", audioTitle);
 
     await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
+
+    // Debbuging Start
     const response = await axios.get(transcribeUrl, { params: { title: audioTitle } }); // Get transcription result
-    
     if (response.data && response.data.length > 0) {
       console.log("Transcript:", response.data[0].transcript);
       console.log("Transcription successful:", audioTitle);
@@ -17,6 +18,8 @@ async function transcribeAudioFromFile(audioTitle) {
       console.log("No transcript available for:", audioTitle);
       return null;
     }
+    // Debbuging End
+
   } catch (error) {
     console.error("Transcription failed for:", audioTitle, error);
     return null;
@@ -30,8 +33,9 @@ async function transcribeAudioFromLink(audioTitle) {
     console.log("Transcribing:", audioTitle);
 
     await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
-    const response = await axios.get(transcribeUrl, { params: { title: audioTitle } }); // Get transcription result
 
+    // Debbuging Start
+    const response = await axios.get(transcribeUrl, { params: { title: audioTitle } }); // Get transcription result
     if (response.data && response.data.length > 0) {
       console.log("Transcript:", response.data[0].transcript);
       console.log("Transcription successful:", audioTitle);
@@ -40,6 +44,8 @@ async function transcribeAudioFromLink(audioTitle) {
       console.log("No transcript available for:", audioTitle);
       return null;
     }
+    // Debbuging End
+
   } catch (error) {
     console.error("Transcription failed for:", audioTitle, error);
     return null;
