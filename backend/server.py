@@ -1,5 +1,6 @@
 import os
-import traceback
+import ast # For converting string representation of dictionary to dictionary
+import traceback # For debugging
 from pathlib import Path
 from openai import OpenAI
 
@@ -185,11 +186,21 @@ async def transcribe_audio(title: str):
 @app.get("/transcribe/")
 async def get_transcripts():
     transcript = fb_db.child("transcripts").get()
-    
-    print("Raw Transcript Response:", transcript)    
-    
+
     if transcript is None:
         return {"error": "No transcript found"}
-    else:
-        return transcript
-    # return tempdb
+      
+    transcript_data = transcript.items()
+    
+    for key, value in transcript_data:
+        data = ast.literal_eval(value)
+        response = {
+            "video_title": data["video-title"],
+            "transcript": data["transcript"],
+            # "segments": data["segments"],
+        }
+          
+    return response
+        
+    
+    

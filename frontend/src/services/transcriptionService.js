@@ -39,10 +39,11 @@ async function transcribeAudioFromLink(audioTitle) {
 
     console.log(response);
     console.log(response.data);
-    console.log(response.data[0].transcript);
+    console.log(response.data.length);
+    console.log(response.data.transcript);
 
     if (response.data && response.data.length > 0) {
-      console.log("Transcript:", response.data[0].transcript);
+      console.log("Transcript:", response.data.transcript);
       console.log("Transcription successful:", audioTitle);
       return response.data[0].transcript;
     } else {
