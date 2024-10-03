@@ -37,15 +37,11 @@ async function transcribeAudioFromLink(audioTitle) {
     // Debbuging Start
     const response = await axios.get(transcribeUrl); // Get transcription result
 
-    console.log(response);
-    console.log(response.data);
-    console.log(response.data.length);
-    console.log(response.data.transcript);
-
-    if (response.data && response.data.length > 0) {
+    if (response.data && response.data.transcript) {
       console.log("Transcript:", response.data.transcript);
       console.log("Transcription successful:", audioTitle);
-      return response.data[0].transcript;
+      return response.data.transcript;
+      
     } else {
       console.log("No transcript available for:", audioTitle);
       return null;
