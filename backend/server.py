@@ -3,6 +3,9 @@ import traceback
 from pathlib import Path
 from openai import OpenAI
 
+import firebase_admin
+from firebase_admin import credentials, db
+
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
@@ -11,17 +14,29 @@ from pydantic import BaseModel  # For request body validation
 from pydub import AudioSegment  # For audio processing
 import yt_dlp  # For downloading audio from YouTube
 
-app = FastAPI()
+app = FastAPI() # Create FastAPI instance
 
 # Load OpenAI API key from secret file
-with open("./key/secret_key.txt", "r") as f:
+with open("./keys/secret_key.txt", "r") as f:
     api_key = f.read().strip()
 
-client = OpenAI(api_key=api_key)
+client = OpenAI(api_key=api_key) # Create OpenAI instance
+
+# Initialize Firebase instance
+cred = credentials.Certificate("./keys/studyai-database-firebase-adminsdk-f63n0-883759a905.json")
+firebase_admin.initialize_app(cred, {
+  'databaseURL': 'https://studyai-database-default-rtdb.firebaseio.com'
+}) 
+
+# Firebase Realtime Database
+fb_db = firebase_admin.db.reference()
+
+fb_db.set({
+  'transcripts': None
+})
 
 # Mock in-memory database
-db = []
-
+tempdb = []
 
 # Models
 class Timestamps(BaseModel):
@@ -161,8 +176,11 @@ async def transcribe_audio(title: str):
         "segments": transcription.segments,  # TODO: Extract relevant information from segments
     }  # Store the video title and transcript as a Transcript model
 
-    db.clear()  # Clear the database so only the latest transcript is stored
-    db.append(transcript)
+    fb_db.child("transcripts").delete() # Clear the database so only the latest transcript is stored
+    fb_db.child("transcripts").push(str(transcript))
+
+    # tempdb.clear()  # Clear the database so only the latest transcript is stored
+    # tempdb.append(transcript)
 
     return {"Transcription successful": title}
 
@@ -170,4 +188,12 @@ async def transcribe_audio(title: str):
 # Retrieve transcript from database
 @app.get("/transcribe/")
 async def get_transcripts():
-    return db
+    transcript = fb_db.child("transcripts").get()
+    
+    print("Raw Transcript Response:", transcript)    
+    
+    if transcript is None:
+        return {"error": "No transcript found"}
+    else:
+        return transcript
+    # return tempdb
