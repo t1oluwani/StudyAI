@@ -1,7 +1,6 @@
 # StudyAI
 
 # TODO 
-- Choose and add database for transcripts
 - Use transcript for prompt
 - Function for responding to chat
 - Frontend stuff, make looks nnice
