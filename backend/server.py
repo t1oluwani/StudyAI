@@ -31,10 +31,6 @@ firebase_admin.initialize_app(cred, {
 # Firebase Realtime Database
 fb_db = firebase_admin.db.reference()
 
-fb_db.set({
-  'transcripts': None
-})
-
 # Mock in-memory database
 tempdb = []
 
@@ -173,7 +169,7 @@ async def transcribe_audio(title: str):
     transcript = {
         "video-title": title,
         "transcript": transcription.text,
-        "segments": transcription.segments,  # TODO: Extract relevant information from segments
+        # "segments": transcription.segments,  # TODO: Extract relevant information from segments
     }  # Store the video title and transcript as a Transcript model
 
     fb_db.child("transcripts").delete() # Clear the database so only the latest transcript is stored
