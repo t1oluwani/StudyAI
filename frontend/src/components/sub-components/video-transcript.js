@@ -29,7 +29,7 @@ function VideoTranscript({ transcript }) {
   return (
     <div className="video-transcript">
       <h3>Video Transcript</h3>
-      <p>{displayedtranscript || "Unknown Error"}</p>
+      <p>{displayedtranscript || "No Transcript Provided"}</p>
     </div>
   );
 }

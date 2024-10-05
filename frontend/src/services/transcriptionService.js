@@ -26,27 +26,11 @@ async function transcribeAudioFromLink(audioTitle) {
   try {
     console.log("Transcribing:", audioTitle);
 
-    // const response = await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
-    // if (response) {
-    //   console.log("Transcription successful:", audioTitle);
-    //   console.log("Response:", response);
-    // }
-
-    await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
-
-    // Debbuging Start
-    const response = await axios.get(transcribeUrl); // Get transcription result
-
-    if (response.data && response.data.transcript) {
-      console.log("Transcript:", response.data.transcript);
+    const response = await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
+    if (response) {
+      console.log("Response:", response.data);
       console.log("Transcription successful:", audioTitle);
-      return response.data.transcript;
-
-    } else {
-      console.log("No transcript available for:", audioTitle);
-      return null;
     }
-    // Debbuging End
 
   } catch (error) {
     console.error("Transcription failed for:", audioTitle, error);
@@ -61,7 +45,7 @@ async function getTranscriptionResult() {
     const response = await axios.get(transcribeUrl); // Get transcription result
 
     if (response.data && response.data.transcript) {
-      console.log("Transcript:", response.data.transcript);
+      // console.log("Transcript:", response.data.transcript);
       return response.data.transcript;
     } else {
       console.log("No transcript available");
