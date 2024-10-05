@@ -6,6 +6,32 @@ async function transcribeAudioFromFile(audioTitle) {
   try {
     console.log("Transcribing:", audioTitle);
 
+    const response = await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
+    if (response) {
+      console.log("Transcription successful:", audioTitle);
+      console.log("Response:", response);
+    }
+
+  } catch (error) {
+    console.error("Transcription failed for:", audioTitle, error);
+    return null;
+  }
+} export { transcribeAudioFromFile };
+
+
+
+async function transcribeAudioFromLink(audioTitle) {
+  audioTitle = `${audioTitle}.mp3`; // Add file extension to Youtube title
+
+  try {
+    console.log("Transcribing:", audioTitle);
+
+    // const response = await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
+    // if (response) {
+    //   console.log("Transcription successful:", audioTitle);
+    //   console.log("Response:", response);
+    // }
+
     await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
 
     // Debbuging Start
@@ -26,25 +52,9 @@ async function transcribeAudioFromFile(audioTitle) {
     console.error("Transcription failed for:", audioTitle, error);
     return null;
   }
-} export { transcribeAudioFromFile };
-
-async function transcribeAudioFromLink(audioTitle) {
-  audioTitle = `${audioTitle}.mp3`; // Add file extension to Youtube title
-
-  try {
-    console.log("Transcribing:", audioTitle);
-
-    const response = await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
-
-    if (response) {
-      console.log("Transcription successful:", audioTitle);
-    }
-
-  } catch (error) {
-    console.error("Transcription failed for:", audioTitle, error);
-    return null;
-  }
 } export { transcribeAudioFromLink };
+
+
 
 async function getTranscriptionResult() {
   try {

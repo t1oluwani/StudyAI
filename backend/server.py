@@ -152,7 +152,7 @@ async def upload_audio_from_link(url: str):
 
 # Transcribe audio and store transcript in database
 @app.post("/transcribe/")
-async def transcribe_audio(title: str):
+async def transcribe_and_store_audio(title: str):
     file_path = f"uploads/{title}"
 
     if not os.path.exists(file_path):
