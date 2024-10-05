@@ -1,14 +1,35 @@
-function VideoTranscript() {
+import { useEffect, useState } from 'react';
+
+function VideoTranscript({ transcript }) {
+  const [displayedtranscript, setdisplayedTranscript] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTranscript = async () => {
+      try {
+        const loadedTranscript = await transcript;
+        setdisplayedTranscript(loadedTranscript);
+
+      } catch (error) {
+        console.error("Error fetching transcript:", error);
+        setdisplayedTranscript("Transcript not available");
+
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTranscript();
+  }, [transcript]);
+
+  if (loading) {
+    return <p>Loading transcript...</p>;
+  }
+
   return (
     <div className="video-transcript">
       <h3>Video Transcript</h3>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
+      <p>{displayedtranscript || "Unknown Error"}</p>
     </div>
   );
 }

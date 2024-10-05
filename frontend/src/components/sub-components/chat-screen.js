@@ -1,4 +1,4 @@
-function ChatScreen() {
+function ChatScreen( {transcript} ) {
   return (
     <div>
       <h1>Chat Screen</h1>

@@ -7,4 +7,5 @@
 - Transcript displayed as clickable to timestamp
 - Animation (responses look like they are typed out, speed varying)
 - Add drag and drop functionality
+- add loading states
 - Create verbose READme and link with openapi documentation
