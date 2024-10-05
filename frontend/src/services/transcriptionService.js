@@ -34,25 +34,32 @@ async function transcribeAudioFromLink(audioTitle) {
   try {
     console.log("Transcribing:", audioTitle);
 
-    await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
+    const response = await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
 
-    // Debbuging Start
-    const response = await axios.get(transcribeUrl); // Get transcription result
-
-    if (response.data && response.data.transcript) {
-      console.log("Transcript:", response.data.transcript);
+    if (response) {
       console.log("Transcription successful:", audioTitle);
-      return response.data.transcript;
-
-    } else {
-      console.log("No transcript available for:", audioTitle);
-      return null;
     }
-    // Debbuging End
 
   } catch (error) {
     console.error("Transcription failed for:", audioTitle, error);
     return null;
   }
 } export { transcribeAudioFromLink };
+
+async function getTranscriptionResult() {
+  try {
+    const response = await axios.get(transcribeUrl); // Get transcription result
+
+    if (response.data && response.data.transcript) {
+      console.log("Transcript:", response.data.transcript);
+      return response.data.transcript;
+    } else {
+      console.log("No transcript available");
+      return null;
+    }
+  } catch (error) {
+    console.error("Failed to get transcription result", error);
+    return null;
+  }
+} export { getTranscriptionResult };  
 
