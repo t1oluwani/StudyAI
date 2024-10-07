@@ -1,7 +1,6 @@
 # StudyAI
 
 # TODO
-- Add drag and drop functionality
 - Errors show on frontend (console.logs basically)
 - Add loading states
 - Transcript displayed as clickable to timestamp
