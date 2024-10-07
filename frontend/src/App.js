@@ -11,8 +11,17 @@ function App() {
 
   return (
     <div className="App">
-      <PreVideo setLink={setURL} setFile={setMP4} setTranscriptStatus={setIsTranscriptStored}/>
-      <PostVideo link={URL} file={MP4} transcriptStatus={isTranscriptStored} setTranscriptStatus={setIsTranscriptStored}/>
+      <PreVideo
+        setLink={setURL}
+        setFile={setMP4}
+        setTranscriptStatus={setIsTranscriptStored} />
+      <PostVideo
+        link={URL}
+        file={MP4}
+        setLink={setURL}
+        setFile={setMP4}
+        transcriptStatus={isTranscriptStored}
+        setTranscriptStatus={setIsTranscriptStored} />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import os
 import ast  # For converting string representation of dictionary to dictionary
-import traceback  # For debugging
+import traceback  # For extensive debugging
 from pathlib import Path
 from openai import OpenAI
 
@@ -170,6 +170,12 @@ async def upload_audio_from_link(url: str):
         return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
 
 
+# HELPER FUNCTION that stores the data in the database
+def store_in_database(data):
+  fb_db.child("transcripts").delete()  # Clear the database so only the latest data(transcript) is stored
+  fb_db.child("transcripts").push(str(data))
+  print("Transcript stored successfully")
+
 # Transcribe audio and store transcript in database
 @app.post("/transcribe/")
 async def transcribe_and_store_audio(title: str):
@@ -179,9 +185,11 @@ async def transcribe_and_store_audio(title: str):
     if os.path.exists(file_path):
         audio_file = open(f"{file_path}", "rb")
     else:
+        # Debug start
         print(file_path)
         print(Path(file_path).exists())
         print("File not found")
+        # Debug end
         return {"error": "File not found in uploads directory"}
 
     print("Transcribing audio...")
@@ -199,10 +207,11 @@ async def transcribe_and_store_audio(title: str):
     }  # Store the video title and transcript as a Transcript model
 
     print("Storing transcript in database...")
-    fb_db.child(
-        "transcripts"
-    ).delete()  # Clear the database so only the latest transcript is stored
-    fb_db.child("transcripts").push(str(transcript))
+    try:
+        store_in_database(transcript)
+    except Exception as e:
+        print("Error storing transcript:", e)
+        return {"error": "Failed to store transcript"}
 
     return {"Transcription successful": title}
 

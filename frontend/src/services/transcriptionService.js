@@ -45,12 +45,9 @@ async function getTranscriptionResult() {
     const response = await axios.get(transcribeUrl); // Get transcription result
 
     if (response.data && response.data.transcript) {
-      // console.log("Transcript:", response.data.transcript);
       return response.data.transcript;
-    } else {
-      console.log("No transcript available");
-      return null;
-    }
+    } else { return null; }
+    
   } catch (error) {
     console.error("Failed to get transcription result", error);
     return null;
