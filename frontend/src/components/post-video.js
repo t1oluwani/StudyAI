@@ -1,22 +1,39 @@
 import '../styling/post-video.css';
-import EmbeddedVideo from './sub-components/embedded-video';
-import VideoTranscipt from './sub-components/video-transcript';
-import ChatScreen from './sub-components/chat-screen';
+import { useEffect, useState } from 'react';
+
+import EmbeddedVideo from './sub-components/post/embedded-video';
+import VideoTranscipt from './sub-components/post/video-transcript';
+import ChatScreen from './sub-components/post/chat-screen';
 
 import { getTranscriptionResult } from '../services/transcriptionService';
 
-function PostVideo({ link, file }) {
+function PostVideo({ link, file, setLink, setFile, transcriptStatus, setTranscriptStatus }) {
+  const [transcript, setTranscript] = useState(null);
 
-  const transcript = getTranscriptionResult();
+  useEffect(() => {
+    if ((link || file) && transcriptStatus) {
+      async function fetchTranscription() {
+        const result = await getTranscriptionResult();
+        setTranscript(result);
+
+        // Reset the link, file and transciption storing status after fetching the transcript
+        setLink('');
+        setFile('');
+        setTranscriptStatus(false);
+      }
+      fetchTranscription();
+    }
+
+  }, [link, file, setLink, setFile, transcriptStatus, setTranscriptStatus]);
 
   return (
-    <div className="post-video">  
+    <div className="post-video">
       <div className="video-side">
         <EmbeddedVideo url={link} mp4={file} />
-        <VideoTranscipt transcript={transcript}/>
+        <VideoTranscipt transcript={transcript} />
       </div>
       <div className="chat-side">
-        <ChatScreen transcript={transcript}/>
+        <ChatScreen transcript={transcript} />
       </div>
     </div>
   );

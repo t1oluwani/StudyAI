@@ -15,11 +15,12 @@ async function extractAudioFromFile(file) {
       console.log("Audio extraction successful:", file.name);
       return response.data.audio_file;
     } else {
-      console.log("Audio extraction failed:", file.name);
+      console.log("Audio extraction unsuccessful:", file.name);
+      alert("Audio Extraction Unsuccessful!");
       return null;
     }
-
   } catch (error) {
+    alert("Audio Extraction Failed!");
     console.error(error);
   }
 } export { extractAudioFromFile };
@@ -32,6 +33,7 @@ async function extractAudioFromLink(link) {
     console.log("Audio extraction successful:", response.data.audio_file);
     return response.data.audio_file;
   } catch (error) {
+    alert("Audio Extraction Failed!");
     console.error(error);
   }
 } export { extractAudioFromLink };

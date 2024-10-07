@@ -1,13 +1,12 @@
 import '../styling/pre-video.css';
+import FileDrop from './sub-components/pre/file-drop';
+import LinkPaste from './sub-components/pre/link-paste';
 
-import FileDrop from './sub-components/file-drop';
-import LinkPaste from './sub-components/link-paste';
-
-function PreVideo({ setLink, setFile }) {
+function PreVideo({ setLink, setFile, setTranscriptStatus, setLoadingState }) {
   return (
     <div className="pre-video">
-      <FileDrop setFile={setFile}/>
-      <LinkPaste setLink={setLink}/>
+      <FileDrop setFile={setFile} setTranscriptStatus={setTranscriptStatus} setLoadingState={setLoadingState}/>
+      <LinkPaste setLink={setLink} setTranscriptStatus={setTranscriptStatus} setLoadingState={setLoadingState}/>
     </div>
   );
 }

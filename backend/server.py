@@ -1,6 +1,6 @@
 import os
-import ast # For converting string representation of dictionary to dictionary
-import traceback # For debugging
+import ast  # For converting string representation of dictionary to dictionary
+import traceback  # For extensive debugging
 from pathlib import Path
 from openai import OpenAI
 
@@ -15,19 +15,21 @@ from pydantic import BaseModel  # For request body validation
 from pydub import AudioSegment  # For audio processing
 import yt_dlp  # For downloading audio from YouTube
 
-app = FastAPI() # Create FastAPI instance
+app = FastAPI()  # Create FastAPI instance
 
 # Load OpenAI API key from secret file
 with open("./keys/secret_key.txt", "r") as f:
     api_key = f.read().strip()
 
-client = OpenAI(api_key=api_key) # Create OpenAI instance
+client = OpenAI(api_key=api_key)  # Create OpenAI instance
 
 # Initialize Firebase instance
-cred = credentials.Certificate("./keys/studyai-database-firebase-adminsdk-f63n0-883759a905.json")
-firebase_admin.initialize_app(cred, {
-  'databaseURL': 'https://studyai-database-default-rtdb.firebaseio.com'
-}) 
+cred = credentials.Certificate(
+    "./keys/studyai-database-firebase-adminsdk-f63n0-883759a905.json"
+)
+firebase_admin.initialize_app(
+    cred, {"databaseURL": "https://studyai-database-default-rtdb.firebaseio.com"}
+)
 
 # Firebase Realtime Database
 fb_db = firebase_admin.db.reference()
@@ -43,9 +45,9 @@ class Timestamps(BaseModel):
 
 
 class Transcript(BaseModel):
-    video_title: str
-    transcript: str
-    segments: list[Timestamps]
+  video_title: str
+  transcript: str
+  segments: list[Timestamps]
 
 
 # CORS
@@ -67,6 +69,7 @@ UPLOAD_DIR.mkdir(exist_ok=True)
 
 # ROUTES
 
+
 # Upload video and audio file from local storage (specified by path)
 @app.post("/upload-from-file/")
 async def upload_audio_from_file(file: UploadFile = File(...)):
@@ -81,6 +84,12 @@ async def upload_audio_from_file(file: UploadFile = File(...)):
             UPLOAD_DIR / file.filename
         )  # Path for videofile in uploads directory
 
+        if os.path.exists(file_path):
+            return {
+                "audio_file": str(file.filename),
+                "message": "Audio already exists in uploads directory.",
+            }
+        
         with open(file_path, "wb") as f:
             f.write(await file.read())
 
@@ -97,16 +106,17 @@ async def upload_audio_from_file(file: UploadFile = File(...)):
                 UPLOAD_DIR / audio_file_name
             )  # Path for audio file in uploads directory
 
-            try: 
+            try:
                 audio = AudioSegment.from_file(file_path)
                 audio.export(audio_path, format="mp3")
                 print("Audio was loaded successfully!")
             except Exception as e:
                 print(f"Error loading audio: {e}")
-                return {
-                  "audio_file": None,
-                  "message": "Error loading audio from video."
-                }
+                return JSONResponse(
+                    status_code=500, content={
+                    "audio_file": None,
+                    "message": "Error loading audio from video.",
+                })
 
             # file_path.unlink() # Delete the temp file
 
@@ -137,10 +147,21 @@ async def upload_audio_from_link(url: str):
                 }
             ],  # Convert to mp3
         }
+
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            # ydl.download([url])
-            info = ydl.extract_info(url, download=True)
+            info = ydl.extract_info(url, download=False)
             video_name = info.get("title", None)
+
+            # Check if audio file already exists before downloading
+            if os.path.exists(f"uploads/{video_name}.mp3"):
+                print("Audio already exists in uploads directory.")
+                return {
+                    "audio_file": f"{video_name}",
+                    "message": "Audio already exists in uploads directory.",
+                }
+            else:
+                print("Downloading audio...")
+                ydl.download([url])
 
         return {
             "audio_file": f"{video_name}",
@@ -150,34 +171,58 @@ async def upload_audio_from_link(url: str):
         return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
 
 
+# HELPER FUNCTION that stores the data in the database
+def store_in_database(data):
+  fb_db.child("transcripts").delete()  # Clear the database so only the latest data(transcript) is stored
+  fb_db.child("transcripts").push(data) # The line the error is coming from !!!
+  print("Transcript stored successfully")
+
 # Transcribe audio and store transcript in database
 @app.post("/transcribe/")
-async def transcribe_audio(title: str):
+async def transcribe_and_store_audio(title: str):
+    print("Title: |" + title + "|")
     file_path = f"uploads/{title}"
 
-    if not os.path.exists(file_path):
-        return {"error": "File not found"}
+    if os.path.exists(file_path):
+        audio_file = open(f"{file_path}", "rb")
     else:
-        audio_file = open(f"uploads/{title}", "rb")
+        # Debug start
+        print(file_path)
+        print(Path(file_path).exists())
+        print("File not found")
+        # Debug end
+        return JSONResponse(status_code=404, content={"error": "File not found in uploads directory"})
 
+    print("Transcribing audio...")
     try:
         transcription = client.audio.transcriptions.create(
             model="whisper-1", file=audio_file, response_format="verbose_json"
         )
     except Exception as e:
-        return {"error": "Transcription failed"}
+        return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
+      
+    timestamps = []
+    # for segment in transcription.segments: # Extract relevant information from segments
+    #     for word in segment:
+    #         timestamps.append({
+    #             "word": word['word'],
+    #             "start": word['start'],
+    #             "end": word['end']
+    #         })
 
     transcript = {
         "video-title": title,
         "transcript": transcription.text,
-        # "segments": transcription.segments,  # TODO: Extract relevant information from segments
-    }  # Store the video title and transcript as a Transcript model
-
-    fb_db.child("transcripts").delete() # Clear the database so only the latest transcript is stored
-    fb_db.child("transcripts").push(str(transcript))
-
-    # tempdb.clear()  # Clear the database so only the latest transcript is stored
-    # tempdb.append(transcript)
+        "segments": str(transcription.segments),
+        # "segments": str(timestamps),  # Essentially a verbose transcript extracted from segments 
+    }
+    print(transcript)
+    print("Storing transcript in database...")
+    try:
+        store_in_database(transcript)
+    except Exception as e:
+        print("Error storing transcript:", e)
+        return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
 
     return {"Transcription successful": title}
 
@@ -188,19 +233,36 @@ async def get_transcripts():
     transcript = fb_db.child("transcripts").get()
 
     if transcript is None:
-        return {"error": "No transcript found"}
-      
+        return JSONResponse(status_code=404, content={"error": "No transcript found"})
+
     transcript_data = transcript.items()
-    
+
     for key, value in transcript_data:
-        data = ast.literal_eval(value)
         response = {
-            "video_title": data["video-title"],
-            "transcript": data["transcript"],
-            # "segments": data["segments"],
+            "video_title": value["video-title"],
+            "transcript" : value["transcript"],
+            "segments"   : value["segments"],
         }
-          
     return response
+  
+# Send a message to OpenAI's chat API
+@app.post("/chat/")
+async def chat(prevContext: str, currMessage: str):
+    try:
+        prompt = "Given this context: \"" + prevContext + "\", Respond to this \"" + currMessage + "\""
+        refinedPrompt = prompt + "Please respond naturally and directly, without including any prefixes"
+        print("Sending Message to AI...")
+             
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{
+              "role": "user", 
+              "content": refinedPrompt
+              }],
+        )
         
-    
-    
+        print("AI " + completion.choices[0].message.content)
+        return {completion.choices[0].message.content}
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
+

@@ -1,21 +1,24 @@
 import React from 'react';
 
-import { extractAudioFromLink } from '../../services/audioExtractionService';
-import { transcribeAudioFromLink } from '../../services/transcriptionService';
+import { extractAudioFromLink } from '../../../services/audioExtractionService';
+import { transcribeAndStoreAudioFromLink } from '../../../services/transcriptionService';
 
-function LinkPaste({ setLink }) {
+function LinkPaste({ setLink, setTranscriptStatus, setLoadingState }) {
 
   const perform_main_operations = async (link) => {
     console.log("Performing main operations");
 
+    setLoadingState("Extracting Audio from Link...");
     const audio_title = await extractAudioFromLink(link); // Wait for extraction
+
     if (audio_title !== null) {
-      transcribeAudioFromLink(audio_title);
+      setLoadingState("Transcribing and Storing Audio..."); // Wait for transcription and storage
+      await transcribeAndStoreAudioFromLink(audio_title);
+      setTranscriptStatus(true);
     } else {
-      console.log("Main operations stopped due to audio extraction failure");
-      return;
+      alert("Main Operations Stopped Due to Audio Extraction Failure!");
     }
-    // script sent to AI model
+    setLoadingState("");
 }
 
   const convertToEmbedLink = (link) => {
@@ -25,7 +28,7 @@ function LinkPaste({ setLink }) {
       if (vidId) {
         return `https://www.youtube.com/embed/${vidId}`;
       } else {
-        console.error('Invalid YouTube URL');
+        alert('Invalid YouTube URL!');
         return '';
       }
     } else {
@@ -39,13 +42,11 @@ function LinkPaste({ setLink }) {
       const embedLink = convertToEmbedLink(link);
 
       if (embedLink) {
-        // setLink(embedLink);
+        setLink(embedLink);
         perform_main_operations(link);
         handleLinkClear();
-
-        // console.log(link);
       } else {
-        console.error('NO YouTube URL Provided');
+        alert('No YouTube URL Provided!');
       }
     }
   }
