@@ -8,21 +8,23 @@ import { useDropzone } from 'react-dropzone';
 import { extractAudioFromFile } from '../../../services/audioExtractionService';
 import { transcribeAndStoreAudioFromFile } from '../../../services/transcriptionService';
 
-function FileDrop({ setFile, setTranscriptStatus }) {
+function FileDrop({ setFile, setTranscriptStatus, setLoadingState }) {
   const [fileName, setFileName] = useState('');
   
   const perform_main_operations = async (file) => {
     console.log("Performing main operations");
+    setLoadingState("Extracting Audio from File...");
 
     const audio_title = await extractAudioFromFile(file); // Wait for extraction
     if (audio_title !== null) {
+      setLoadingState("Transcribing and Storing Audio...");
       await transcribeAndStoreAudioFromFile(audio_title);
       setTranscriptStatus(true);
+
     } else {
       alert("Main Operations Stopped Due to Audio Extraction Failure!");
-      return;
     }
-    // script sent to ai model
+    setLoadingState("");
   }
 
   const handleFileClear = () => {

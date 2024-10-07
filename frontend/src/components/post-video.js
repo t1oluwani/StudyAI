@@ -7,7 +7,7 @@ import ChatScreen from './sub-components/post/chat-screen';
 
 import { getTranscriptionResult } from '../services/transcriptionService';
 
-function PostVideo({ link, file, setLink, setFile, transcriptStatus, setTranscriptStatus }) {
+function PostVideo({ link, file, setLink, setFile, transcriptStatus, setTranscriptStatus, setLoadingState }) {
   const [transcript, setTranscript] = useState(null);
 
   useEffect(() => {
