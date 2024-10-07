@@ -1,35 +1,37 @@
 import { useEffect, useState } from 'react';
 
 function VideoTranscript({ transcript }) {
-  const [displayedtranscript, setdisplayedTranscript] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // const [displayedTranscript, setdisplayedTranscript] = useState("");
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchTranscript = async () => {
-      try {
-        const loadedTranscript = await transcript;
-        setdisplayedTranscript(loadedTranscript);
+  // useEffect(() => {
+  //   const fetchTranscript = async () => {
+  //     try {
+  //       const loadedTranscript = await transcript;
+  //       setdisplayedTranscript(loadedTranscript);
 
-      } catch (error) {
-        console.error("Error fetching transcript:", error);
-        setdisplayedTranscript("Transcript not available");
+  //     } catch (error) {
+  //       console.error("Error fetching transcript:", error);
+  //       setdisplayedTranscript("Transcript not available");
 
-      } finally {
-        setLoading(false);
-      }
-    };
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchTranscript();
-  }, [transcript]);
+  //   fetchTranscript();
+  // }, [transcript]);
 
-  if (loading) {
-    return <p>Loading transcript...</p>;
-  }
+  // if (loading) {
+  //   return <p>Loading transcript...</p>;
+  // }
+
+  const displayedTranscript = transcript || "No Transcript Provided"; // Direct assignment
 
   return (
     <div className="video-transcript">
       <h3>Video Transcript</h3>
-      <p>{displayedtranscript || "No Transcript Provided"}</p>
+      <p>{displayedTranscript || "No Transcript Provided"}</p>
     </div>
   );
 }

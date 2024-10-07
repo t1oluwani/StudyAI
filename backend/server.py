@@ -37,6 +37,7 @@ fb_db = firebase_admin.db.reference()
 # Mock in-memory database
 tempdb = []
 
+
 # Models
 class Timestamps(BaseModel):
     start: float
@@ -45,9 +46,9 @@ class Timestamps(BaseModel):
 
 
 class Transcript(BaseModel):
-    video_title: str
-    transcript: str
-    segments: list[Timestamps]
+  video_title: str
+  transcript: str
+  segments: list[Timestamps]
 
 
 # CORS
@@ -84,6 +85,12 @@ async def upload_audio_from_file(file: UploadFile = File(...)):
             UPLOAD_DIR / file.filename
         )  # Path for videofile in uploads directory
 
+        if os.path.exists(file_path):
+            return {
+                "audio_file": str(file.filename),
+                "message": "Audio already exists in uploads directory.",
+            }
+        
         with open(file_path, "wb") as f:
             f.write(await file.read())
 
@@ -140,10 +147,19 @@ async def upload_audio_from_link(url: str):
                 }
             ],  # Convert to mp3
         }
+
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            # ydl.download([url])
-            info = ydl.extract_info(url, download=True)
+            info = ydl.extract_info(url, download=False)
             video_name = info.get("title", None)
+
+            # Check if audio file already exists before downloading
+            if os.path.exists(f"uploads/{video_name}.mp3"):
+                return {
+                    "audio_file": f"{video_name}",
+                    "message": "Audio already exists in uploads directory.",
+                }
+            else:
+                ydl.download([url])
 
         return {
             "audio_file": f"{video_name}",
@@ -156,16 +172,17 @@ async def upload_audio_from_link(url: str):
 # Transcribe audio and store transcript in database
 @app.post("/transcribe/")
 async def transcribe_and_store_audio(title: str):
+    print("Title: |" + title + "|")
     file_path = f"uploads/{title}"
 
     if os.path.exists(file_path):
-      audio_file = open(f"{file_path}", "rb")      
+        audio_file = open(f"{file_path}", "rb")
     else:
-      print(file_path)
-      print(Path(file_path).exists())
-      print("File not found")
-      return {"error": "File not found in uploads directory"}
-    
+        print(file_path)
+        print(Path(file_path).exists())
+        print("File not found")
+        return {"error": "File not found in uploads directory"}
+
     print("Transcribing audio...")
     try:
         transcription = client.audio.transcriptions.create(
@@ -181,10 +198,13 @@ async def transcribe_and_store_audio(title: str):
     }  # Store the video title and transcript as a Transcript model
 
     print("Storing transcript in database...")
-    fb_db.child("transcripts").delete()  # Clear the database so only the latest transcript is stored
+    fb_db.child(
+        "transcripts"
+    ).delete()  # Clear the database so only the latest transcript is stored
     fb_db.child("transcripts").push(str(transcript))
 
     return {"Transcription successful": title}
+
 
 # Retrieve transcript from database
 @app.get("/transcribe/")
