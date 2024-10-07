@@ -1,5 +1,5 @@
-import { useState } from "react";
 import "../../../styling/chat-screen.css";
+import { useState, useEffect } from "react";
 import MessageList from "./sub-components/message-list";
 import { getOpenAIResponse } from "../../../services/openAIService";
 
@@ -10,9 +10,20 @@ function ChatScreen({ transcript }) {
     { role: "user", text: 'What is your name?' },
     { role: "chat", text: 'I am a chat bot!' },
   ]);
+  console.log(messages)
 
-  // const [context, setContext] = useState(transcript);
-  const [context, setContext] = useState("User: Hello!; Response: Hi there! How can I help you?\nUser: What is your name?; Response: I am a chat bot!\n");
+  const [context, setContext] = useState("");
+
+  useEffect(() => { // Update context when transcript changes
+    if (!context) { 
+      if (transcript) { 
+        setContext(transcript); 
+      } else { 
+        setContext("Hi! I am a chat bot!"); 
+      }
+      return;
+    }
+  }, [transcript]);
 
   function createMessage(role, text) {
     return { role: role, text: text };
@@ -24,21 +35,15 @@ function ChatScreen({ transcript }) {
 
     const newMessage = createMessage("user", userMessage);
     setMessages([...messages, newMessage]);
-    console.log("User:", userMessage);
 
-    const message = "User: " + userMessage + "; ";
-
+    const message = " User: " + userMessage + "; ";
     const response = await getOpenAIResponse(context, message)
 
-    console.log("1");
     if (response) {
-      const newMessage = createMessage("chat", response);
-      setMessages([...messages, newMessage]);
-      console.log("Response:", response);
-      setContext(context + userMessage + "Response: " + response + ";");
-      console.log("Context:", context);
+      const newResponse = createMessage("chat", response);
+      setMessages([...messages, newResponse]);
+      setContext(context + message + "Response: " + response + ";");
     }
-    console.log("2");
     
     document.getElementById("userMessage").value = ""; // Clear the input field
   }

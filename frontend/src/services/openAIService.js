@@ -8,7 +8,7 @@ async function getOpenAIResponse(context, message) {
     const response = await axios.post(openAIChatUrl, null, { params: { prevContext: context, currMessage: message } });
 
     if (response.data) {
-      const extractedResponse = response.data[0].split('Response: ')[1].trim();
+      const extractedResponse = response.data[0];
       console.log("Successfully got OpenAI response");
       return extractedResponse;
     } else { 
