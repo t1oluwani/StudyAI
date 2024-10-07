@@ -1,0 +1,23 @@
+.embedded-video iframe, .embedded-video video {
+  height: 45vh;
+  width: 45vw;
+  /* border: none; */
+}
+
+.video-transcript {
+  background-color: white;
+  overflow-y: scroll;
+
+  border: 2px solid lightgray;
+  border-radius: 10px;
+  
+  padding: 0 25px;
+  margin: 20px;
+
+  height: 45vh;
+  width: 43vw;
+}
+
+.video-transcript p {
+  text-align: start;
+}

@@ -1,4 +1,4 @@
-import "../../../styling/chat-screen.css";
+import "../../../styling/chat-side.css";
 import { useState, useEffect } from "react";
 import MessageList from "./sub-components/message-list";
 import { getOpenAIResponse } from "../../../services/openAIService";

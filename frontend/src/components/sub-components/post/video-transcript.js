@@ -1,5 +1,7 @@
+import "../../../styling/video-side.css";
+
 function VideoTranscript({ transcript }) {
-  const displayedTranscript = transcript || "No Transcript Provided";
+  const displayedTranscript = transcript || "";
 
   return (
     <div className="video-transcript">
