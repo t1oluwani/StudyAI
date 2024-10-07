@@ -95,9 +95,9 @@
   padding: 10px 15px;
   border-radius: 0px 5px 5px 0px;
 
-  background-color: #28a745;
+  background-color: #0078D7;
   color: white;
 }
 .input-container button:hover {
-  background-color: #218838;
+  background-color: #0056b3;
 }

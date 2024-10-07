@@ -1,11 +1,11 @@
 # StudyAI
 
 # TODO
-- Add loading states
 - Transcript displayed as clickable to timestamp
 - Do TODEBUG
 - Route pages instead of stacked on top of each other
-- Create verbose READme and link with openapi documentation
+- possiblity of start script or makefile (regen requirements)
+- Create verbose READme and link with openapi documentation and setp up instracutions
 
 # TODEBUG
 - why does it not work for: Russ - 3:15 (Breathe) (Official Video).mp3
