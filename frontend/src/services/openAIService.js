@@ -15,6 +15,7 @@ async function getOpenAIResponse(context, message) {
       return null; 
     }
   } catch (error) {
+    alert("Could Not Get OpenAI Response!");
     console.error("Failed to get OpenAI response", error);
     return null;
   }

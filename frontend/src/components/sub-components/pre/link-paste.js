@@ -14,7 +14,7 @@ function LinkPaste({ setLink, setTranscriptStatus }) {
       await transcribeAndStoreAudioFromLink(audio_title);
       setTranscriptStatus(true);
     } else {
-      console.log("Main operations stopped due to audio extraction failure");
+      alert("Main Operations Stopped Due to Audio Extraction Failure!");
       return;
     }
     // script sent to AI model
@@ -27,7 +27,7 @@ function LinkPaste({ setLink, setTranscriptStatus }) {
       if (vidId) {
         return `https://www.youtube.com/embed/${vidId}`;
       } else {
-        console.error('Invalid YouTube URL');
+        alert('Invalid YouTube URL!');
         return '';
       }
     } else {
@@ -45,7 +45,7 @@ function LinkPaste({ setLink, setTranscriptStatus }) {
         perform_main_operations(link);
         handleLinkClear();
       } else {
-        console.error('NO YouTube URL Provided');
+        alert('No YouTube URL Provided!');
       }
     }
   }

@@ -11,6 +11,7 @@ async function transcribeAndStoreAudioFromFile(audioTitle) {
       console.log("Transcription and Storage successful:", audioTitle);
     }
   } catch (error) {
+    alert("Transcription And Storage Failed!");
     console.error("Transcription and Storage failed for:", audioTitle, error);
     return null;
   }
@@ -28,6 +29,7 @@ async function transcribeAndStoreAudioFromLink(audioTitle) {
       console.log("Transcription and Storage successful:", audioTitle);
     }
   } catch (error) {
+    alert("Transcription And Storage Failed!");
     console.error("Transcription and Storage failed for:", audioTitle, error);
     return null;
   }
@@ -45,6 +47,7 @@ async function getTranscriptionResult() {
       return null; 
     }
   } catch (error) {
+    alert("Could Not Get Transcription!");
     console.error("Failed to get transcription result", error);
     return null;
   }

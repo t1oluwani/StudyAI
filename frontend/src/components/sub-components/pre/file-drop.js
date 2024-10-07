@@ -19,7 +19,7 @@ function FileDrop({ setFile, setTranscriptStatus }) {
       await transcribeAndStoreAudioFromFile(audio_title);
       setTranscriptStatus(true);
     } else {
-      console.log("Main operations stopped due to audio extraction failure"); 
+      alert("Main Operations Stopped Due to Audio Extraction Failure!");
       return;
     }
     // script sent to ai model
@@ -37,7 +37,7 @@ function FileDrop({ setFile, setTranscriptStatus }) {
       perform_main_operations(file);
       handleFileClear();
     } else {
-      console.error('No file selected');
+      alert('No File Selected!');
     }
   }
 
