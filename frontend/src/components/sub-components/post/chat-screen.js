@@ -5,10 +5,7 @@ import { getOpenAIResponse } from "../../../services/openAIService";
 
 function ChatScreen({ transcript }) {
   const [messages, setMessages] = useState([
-    { role: "user", text: 'Hello!' },
-    { role: "chat", text: 'Hi there! How can I help you?' },
-    { role: "user", text: 'What is your name?' },
-    { role: "chat", text: 'I am a chat bot!' },
+    { role: "chat", text: 'I’ve got your video ready. What would you like to know?' },
   ]);
   console.log(messages)
 
@@ -33,15 +30,15 @@ function ChatScreen({ transcript }) {
     const userMessage = document.getElementById("userMessage").value;
     if (userMessage === "") { return;}
 
-    const newMessage = createMessage("user", userMessage);
-    setMessages([...messages, newMessage]);
+    const newUserMessage = createMessage("user", userMessage);
+    setMessages(prevMessages => [...prevMessages, newUserMessage]);
 
     const message = " User: " + userMessage + "; ";
     const response = await getOpenAIResponse(context, message)
 
     if (response) {
-      const newResponse = createMessage("chat", response);
-      setMessages([...messages, newResponse]);
+      const newResponseMessage = createMessage("chat", response);
+      setMessages(prevMessages => [...prevMessages, newResponseMessage]);
       setContext(context + message + "Response: " + response + ";");
     }
     

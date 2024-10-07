@@ -239,13 +239,14 @@ async def get_transcripts():
 async def chat(prevContext: str, currMessage: str):
     try:
         prompt = "Given this context: \"" + prevContext + "\", Respond to this \"" + currMessage + "\""
+        refinedPrompt = prompt + "Please respond naturally and directly, without including any prefixes"
         print("Sending Message to AI...")
              
         completion = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{
               "role": "user", 
-              "content": prompt
+              "content": refinedPrompt
               }],
         )
         
