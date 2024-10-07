@@ -1,16 +1,18 @@
 import React from 'react';
 
 import { extractAudioFromLink } from '../../services/audioExtractionService';
-import { transcribeAudioFromLink } from '../../services/transcriptionService';
+import { transcribeAndStoreAudioFromLink } from '../../services/transcriptionService';
 
-function LinkPaste({ setLink }) {
+function LinkPaste({ setLink, setTranscriptStatus }) {
+  
 
   const perform_main_operations = async (link) => {
     console.log("Performing main operations");
 
     const audio_title = await extractAudioFromLink(link); // Wait for extraction
     if (audio_title !== null) {
-      transcribeAudioFromLink(audio_title);
+      await transcribeAndStoreAudioFromLink(audio_title);
+      setTranscriptStatus(true);
     } else {
       console.log("Main operations stopped due to audio extraction failure");
       return;

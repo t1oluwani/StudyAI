@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
 
 import { extractAudioFromFile } from '../../services/audioExtractionService';
-import { transcribeAudioFromFile } from '../../services/transcriptionService';
+import { transcribeAndStoreAudioFromFile } from '../../services/transcriptionService';
 
-function FileDrop({ setFile }) {
+function FileDrop({ setFile, setTranscriptStatus }) {
   const [fileName, setFileName] = useState('');
   
   const perform_main_operations = async (file) => {
@@ -15,7 +15,8 @@ function FileDrop({ setFile }) {
 
     const audio_title = await extractAudioFromFile(file); // Wait for extraction
     if (audio_title !== null) {
-      transcribeAudioFromFile(audio_title);
+      await transcribeAndStoreAudioFromFile(audio_title);
+      setTranscriptStatus(true);
     } else {
       console.log("Main operations stopped due to audio extraction failure"); 
       return;

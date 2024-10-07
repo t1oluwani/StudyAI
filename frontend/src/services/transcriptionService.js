@@ -2,41 +2,41 @@ import axios from "axios";
 
 const transcribeUrl = "http://127.0.0.1:8000/transcribe/"
 
-async function transcribeAudioFromFile(audioTitle) {  
+async function transcribeAndStoreAudioFromFile(audioTitle) {  
   try {
-    console.log("Transcribing:", audioTitle);
+    console.log("Transcribing and Storing:", audioTitle);
 
     const response = await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
     if (response) {
-      console.log("Transcription successful:", audioTitle);
       console.log("Response:", response);
+      console.log("Transcription and Storage successful:", audioTitle);
     }
 
   } catch (error) {
-    console.error("Transcription failed for:", audioTitle, error);
+    console.error("Transcription and Storage failed for:", audioTitle, error);
     return null;
   }
-} export { transcribeAudioFromFile };
+} export { transcribeAndStoreAudioFromFile };
 
 
 
-async function transcribeAudioFromLink(audioTitle) {
+async function transcribeAndStoreAudioFromLink(audioTitle) {
   audioTitle = `${audioTitle}.mp3`; // Add file extension to Youtube title
 
   try {
-    console.log("Transcribing:", audioTitle);
+    console.log("Transcribing and Storing:", audioTitle);
 
     const response = await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
     if (response) {
       console.log("Response:", response.data);
-      console.log("Transcription successful:", audioTitle);
+      console.log("Transcription and Storage successful:", audioTitle);
     }
 
   } catch (error) {
-    console.error("Transcription failed for:", audioTitle, error);
+    console.error("Transcription and Storage failed for:", audioTitle, error);
     return null;
   }
-} export { transcribeAudioFromLink };
+} export { transcribeAndStoreAudioFromLink };
 
 
 

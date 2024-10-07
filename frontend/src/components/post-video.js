@@ -7,23 +7,25 @@ import ChatScreen from './sub-components/chat-screen';
 
 import { getTranscriptionResult } from '../services/transcriptionService';
 
-function PostVideo({ link, file }) {
+function PostVideo({ link, file, transcriptStatus, setTranscriptStatus }) {
   const [transcript, setTranscript] = useState(null);
 
-  console.log("Link: ", link);
-  console.log("File: ", file);
-  console.log("Transcript: ", transcript);
-
   useEffect(() => {
-    if (link || file) {
+    if ((link || file) && transcriptStatus) {
       async function fetchTranscription() {
         const result = await getTranscriptionResult();
         setTranscript(result);
+        setTranscriptStatus(false);
       }
       fetchTranscription();
     }
 
   }, [link, file]);
+
+
+  console.log("Post Video Link: ", link);
+  console.log("Post Video File: ", file);
+  console.log("Post Video Transcript: ", transcript);
 
   return (
     <div className="post-video">
