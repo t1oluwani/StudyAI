@@ -1,13 +1,6 @@
 import Message from "./message";
 
-const MessageList = () => {
-    const messages = [
-        { role: "user", text: 'Hello!'},
-        { role: "chat", text: 'Hi there! How can I help you?'},
-        { role: "user", text: 'What is your name?'},
-        { role: "chat", text: 'I am a chat bot!'},
-    ];
-
+const MessageList = ( {messages} ) => {
     return (
         <div className="messages" id="messages">
             {messages.map((msg, index) => (
