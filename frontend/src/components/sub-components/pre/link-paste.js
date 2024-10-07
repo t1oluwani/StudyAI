@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { extractAudioFromLink } from '../../services/audioExtractionService';
-import { transcribeAndStoreAudioFromLink } from '../../services/transcriptionService';
+import { extractAudioFromLink } from '../../../services/audioExtractionService';
+import { transcribeAndStoreAudioFromLink } from '../../../services/transcriptionService';
 
 function LinkPaste({ setLink, setTranscriptStatus }) {
   

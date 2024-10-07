@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
 
-import { extractAudioFromFile } from '../../services/audioExtractionService';
-import { transcribeAndStoreAudioFromFile } from '../../services/transcriptionService';
+import { extractAudioFromFile } from '../../../services/audioExtractionService';
+import { transcribeAndStoreAudioFromFile } from '../../../services/transcriptionService';
 
 function FileDrop({ setFile, setTranscriptStatus }) {
   const [fileName, setFileName] = useState('');

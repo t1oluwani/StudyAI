@@ -1,7 +1,7 @@
 import '../styling/pre-video.css';
 
-import FileDrop from './sub-components/file-drop';
-import LinkPaste from './sub-components/link-paste';
+import FileDrop from './sub-components/pre/file-drop';
+import LinkPaste from './sub-components/pre/link-paste';
 
 function PreVideo({ setLink, setFile, setTranscriptStatus }) {
   return (

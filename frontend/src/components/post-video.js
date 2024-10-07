@@ -1,9 +1,9 @@
 import '../styling/post-video.css';
 import { useEffect, useState } from 'react';
 
-import EmbeddedVideo from './sub-components/embedded-video';
-import VideoTranscipt from './sub-components/video-transcript';
-import ChatScreen from './sub-components/chat-screen';
+import EmbeddedVideo from './sub-components/post/embedded-video';
+import VideoTranscipt from './sub-components/post/video-transcript';
+import ChatScreen from './sub-components/post/chat-screen';
 
 import { getTranscriptionResult } from '../services/transcriptionService';
 
