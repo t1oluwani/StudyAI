@@ -24,25 +24,6 @@ function FileDrop({ setFile, setTranscriptStatus }) {
     }
     // script sent to ai model
   }
- 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      // if (file.size > 52428800) {
-      //   alert('File is too large. Max file size is 50MB.');
-      //   handleFileClear();
-      //   return;
-      // }
-      if (!(file.type.startsWith('video/') || file.type.startsWith('audio/'))) {
-        alert('File is not a video or audio file. Please upload an MP4 or MP3 file.');
-        handleFileClear();
-        return;
-      }
-      setFileName(file.name);
-    } else {
-      setFileName('');
-    }
-  };
 
   const handleFileClear = () => {
     setFileName('');
