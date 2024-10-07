@@ -1,7 +1,6 @@
 # StudyAI
 
 # TODO
-- Errors show on frontend (console.logs basically)
 - Add loading states
 - Transcript displayed as clickable to timestamp
 - Do TODEBUG
