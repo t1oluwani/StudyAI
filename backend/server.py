@@ -233,3 +233,22 @@ async def get_transcripts():
             # "segments"   : value["segments"],
         }
     return response
+  
+# Send a message to OpenAI's chat API
+@app.post("/chat/")
+async def chat(prevContext: str, currMessage: str):
+    try:
+        prompt = "Given this context: \"" + prevContext + "\", Respond to this \"" + currMessage + "\""
+        
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{
+              "role": "user", 
+              "content": prompt
+              }],
+        )
+
+        return {completion.choices[0].message.content}
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
+
