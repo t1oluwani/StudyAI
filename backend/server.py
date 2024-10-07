@@ -112,10 +112,11 @@ async def upload_audio_from_file(file: UploadFile = File(...)):
                 print("Audio was loaded successfully!")
             except Exception as e:
                 print(f"Error loading audio: {e}")
-                return {
+                return JSONResponse(
+                    status_code=500, content={
                     "audio_file": None,
                     "message": "Error loading audio from video.",
-                }
+                })
 
             # file_path.unlink() # Delete the temp file
 
@@ -173,7 +174,7 @@ async def upload_audio_from_link(url: str):
 # HELPER FUNCTION that stores the data in the database
 def store_in_database(data):
   fb_db.child("transcripts").delete()  # Clear the database so only the latest data(transcript) is stored
-  fb_db.child("transcripts").push(data)
+  fb_db.child("transcripts").push(data) # The line the error is coming from !!!
   print("Transcript stored successfully")
 
 # Transcribe audio and store transcript in database
@@ -190,7 +191,7 @@ async def transcribe_and_store_audio(title: str):
         print(Path(file_path).exists())
         print("File not found")
         # Debug end
-        return {"error": "File not found in uploads directory"}
+        return JSONResponse(status_code=404, content={"error": "File not found in uploads directory"})
 
     print("Transcribing audio...")
     try:
@@ -198,20 +199,30 @@ async def transcribe_and_store_audio(title: str):
             model="whisper-1", file=audio_file, response_format="verbose_json"
         )
     except Exception as e:
-        return {"error": "Transcription failed"}
+        return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
+      
+    timestamps = []
+    for segment in transcription.segments: # Extract relevant information from segments
+        for word in segment:
+            timestamps.append({
+                "word": word['word'],
+                "start": word['start'],
+                "end": word['end']
+            })
 
     transcript = {
         "video-title": title,
         "transcript": transcription.text,
-        # "segments": transcription.segments,  # TODO: Extract relevant information from segments
-    }  # Store the video title and transcript as a Transcript model
-
+        "segments": str(transcription.segments),
+        # "segments": str(timestamps),  # Essentially a verbose transcript extracted from segments 
+    }
+    print(transcript)
     print("Storing transcript in database...")
     try:
         store_in_database(transcript)
     except Exception as e:
         print("Error storing transcript:", e)
-        return {"error": "Failed to store transcript"}
+        return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
 
     return {"Transcription successful": title}
 
@@ -222,7 +233,7 @@ async def get_transcripts():
     transcript = fb_db.child("transcripts").get()
 
     if transcript is None:
-        return {"error": "No transcript found"}
+        return JSONResponse(status_code=404, content={"error": "No transcript found"})
 
     transcript_data = transcript.items()
 
@@ -230,7 +241,7 @@ async def get_transcripts():
         response = {
             "video_title": value["video-title"],
             "transcript" : value["transcript"],
-            # "segments"   : value["segments"],
+            "segments"   : value["segments"],
         }
     return response
   
