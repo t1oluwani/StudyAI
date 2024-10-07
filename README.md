@@ -2,7 +2,6 @@
 
 # TODO 
 - transcript show up after link is presesd
-- optimize by checking if file exist before downloading
 - check for file
 - Use transcript for prompt
 - Function for responding to chat

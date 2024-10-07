@@ -12,6 +12,7 @@ async function extractAudioFromFile(file) {
     const response = await axios.post(audioFileUploadUrl, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
 
     if (response !== undefined) {
+      console.log("Response:", response.data);
       console.log("Audio extraction successful:", file.name);
       return response.data.audio_file;
     } else {
@@ -29,6 +30,7 @@ async function extractAudioFromLink(link) {
     console.log("Extracting audio from:", link);
     const response = await axios.post(youtubeAudioUploadUrl, null, { params: { url: link } })
 
+    console.log("Response:", response.data);
     console.log("Audio extraction successful:", response.data.audio_file);
     return response.data.audio_file;
   } catch (error) {

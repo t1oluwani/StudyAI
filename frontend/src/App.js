@@ -8,9 +8,6 @@ function App() {
   const [URL, setURL] = useState('');
   const [MP4, setMP4] = useState('');
 
-  // console.log(URL);
-  // console.log(MP4);
-
   return (
     <div className="App">
       <PreVideo setLink={setURL} setFile={setMP4}/>

@@ -6,7 +6,7 @@ function EmbeddedVideo({ url, mp4 }) {
   return (
     <div className="embedded-video">
       <h3>Embedded Video</h3>
-      {url ? (
+      {/* {url ? (
         <iframe
           width="100%"
           height="100%"
@@ -21,7 +21,7 @@ function EmbeddedVideo({ url, mp4 }) {
         </video>
       ) : (
         <p> No Video Available <i className="fas fa-face-frown"></i></p>
-      )}
+      )} */}
     </div>
   )
 }

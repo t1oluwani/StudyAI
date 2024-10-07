@@ -15,22 +15,24 @@ function PostVideo({ link, file }) {
   console.log("Transcript: ", transcript);
 
   useEffect(() => {
-    async function fetchTranscription() {
-      const result = await getTranscriptionResult(link, file);
-      setTranscript(result);
+    if (link || file) {
+      async function fetchTranscription() {
+        const result = await getTranscriptionResult();
+        setTranscript(result);
+      }
+      fetchTranscription();
     }
-    fetchTranscription();
 
   }, [link, file]);
-  
+
   return (
-    <div className="post-video">  
+    <div className="post-video">
       <div className="video-side">
         <EmbeddedVideo url={link} mp4={file} />
-        <VideoTranscipt transcript={transcript}/>
+        <VideoTranscipt transcript={transcript} />
       </div>
       <div className="chat-side">
-        <ChatScreen transcript={transcript}/>
+        <ChatScreen transcript={transcript} />
       </div>
     </div>
   );

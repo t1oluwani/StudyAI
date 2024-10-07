@@ -37,7 +37,6 @@ fb_db = firebase_admin.db.reference()
 # Mock in-memory database
 tempdb = []
 
-
 # Models
 class Timestamps(BaseModel):
     start: float
@@ -154,11 +153,13 @@ async def upload_audio_from_link(url: str):
 
             # Check if audio file already exists before downloading
             if os.path.exists(f"uploads/{video_name}.mp3"):
+                print("Audio already exists in uploads directory.")
                 return {
                     "audio_file": f"{video_name}",
                     "message": "Audio already exists in uploads directory.",
                 }
             else:
+                print("Downloading audio...")
                 ydl.download([url])
 
         return {

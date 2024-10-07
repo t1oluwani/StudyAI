@@ -39,11 +39,9 @@ function LinkPaste({ setLink }) {
       const embedLink = convertToEmbedLink(link);
 
       if (embedLink) {
-        // setLink(embedLink);
+        setLink(embedLink);
         perform_main_operations(link);
         handleLinkClear();
-
-        // console.log(link);
       } else {
         console.error('NO YouTube URL Provided');
       }

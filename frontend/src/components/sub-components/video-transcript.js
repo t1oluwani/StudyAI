@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 
 function VideoTranscript({ transcript }) {
-  // const [displayedTranscript, setdisplayedTranscript] = useState("");
+  // const [displayedtranscript, setdisplayedTranscript] = useState("");
   // const [loading, setLoading] = useState(true);
 
   // useEffect(() => {
