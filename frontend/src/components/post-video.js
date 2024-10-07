@@ -26,12 +26,6 @@ function PostVideo({ link, file, setLink, setFile, transcriptStatus, setTranscri
 
   }, [link, file, setLink, setFile, transcriptStatus, setTranscriptStatus]);
 
-
-  console.log("Post Video Link: ", link);
-  console.log("Post Video File: ", file);
-  console.log("Post Video Transcript: ", transcript);
-  console.log("Post Video Transcript Status: ", transcriptStatus);
-
   return (
     <div className="post-video">
       <div className="video-side">

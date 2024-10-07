@@ -1,8 +1,6 @@
 # StudyAI
 
-# TODO 
-- transcript show up after link is presesd
-- check for file
+# TODO
 - undo the data > str > ast > data to just data > data "server.py and transcriptionService.js"
 - Use transcript for prompt
 - Function for responding to chat

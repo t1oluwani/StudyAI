@@ -173,7 +173,7 @@ async def upload_audio_from_link(url: str):
 # HELPER FUNCTION that stores the data in the database
 def store_in_database(data):
   fb_db.child("transcripts").delete()  # Clear the database so only the latest data(transcript) is stored
-  fb_db.child("transcripts").push(str(data))
+  fb_db.child("transcripts").push(data)
   print("Transcript stored successfully")
 
 # Transcribe audio and store transcript in database
@@ -227,11 +227,9 @@ async def get_transcripts():
     transcript_data = transcript.items()
 
     for key, value in transcript_data:
-        data = ast.literal_eval(value)
         response = {
-            "video_title": data["video-title"],
-            "transcript": data["transcript"],
-            # "segments": data["segments"],
+            "video_title": value["video-title"],
+            "transcript" : value["transcript"],
+            # "segments"   : value["segments"],
         }
-
     return response
