@@ -37,7 +37,6 @@ fb_db = firebase_admin.db.reference()
 # Mock in-memory database
 tempdb = []
 
-
 # Models
 class Timestamps(BaseModel):
     start: float
@@ -159,17 +158,15 @@ async def upload_audio_from_link(url: str):
 async def transcribe_and_store_audio(title: str):
     file_path = f"uploads/{title}"
 
-    print(0)
-
-    if not os.path.exists(file_path):
-        print(file_path)
-        print(f"uploads/{title}")
-        return {"error": "File not found in uploads directory"}
+    if os.path.exists(file_path):
+      audio_file = open(f"{file_path}", "rb")      
     else:
-        audio_file = open(f"uploads/{title}", "rb")
-
-    print(1)
-
+      print(file_path)
+      print(Path(file_path).exists())
+      print("File not found")
+      return {"error": "File not found in uploads directory"}
+    
+    print("Transcribing audio...")
     try:
         transcription = client.audio.transcriptions.create(
             model="whisper-1", file=audio_file, response_format="verbose_json"
@@ -177,28 +174,17 @@ async def transcribe_and_store_audio(title: str):
     except Exception as e:
         return {"error": "Transcription failed"}
 
-    print(2)
-
     transcript = {
         "video-title": title,
         "transcript": transcription.text,
         # "segments": transcription.segments,  # TODO: Extract relevant information from segments
     }  # Store the video title and transcript as a Transcript model
 
-    print(transcript)
-
-    fb_db.child(
-        "transcripts"
-    ).delete()  # Clear the database so only the latest transcript is stored
+    print("Storing transcript in database...")
+    fb_db.child("transcripts").delete()  # Clear the database so only the latest transcript is stored
     fb_db.child("transcripts").push(str(transcript))
 
-    print(3)
-
-    # tempdb.clear()  # Clear the database so only the latest transcript is stored
-    # tempdb.append(transcript)
-
     return {"Transcription successful": title}
-
 
 # Retrieve transcript from database
 @app.get("/transcribe/")
