@@ -4,8 +4,8 @@
   flex-direction: column;
   align-items: center;
 
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
   padding: 10px 20px;
 }
 
@@ -17,19 +17,23 @@
 
   gap: 15px; 
   padding: 25px;
+  margin-top: 2px;
 
-  height: 75vh;
-  width: 40vw;
+  height: 72vh;
+  width: 41vw;
   
   background-color: whitesmoke;
   border-radius: 20px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 .message {
-  max-width: 80%; /* Messages won't exceed 80% of the screen width */
+  max-width: 90%; /* Messages won't exceed 90% of the screen width */
   padding: 10px;
   border-radius: 10px;
   font-size: 16px;
+
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 .message.user {
   align-self: flex-end; /* Aligns messages right */
@@ -48,7 +52,7 @@
 
   background-color: rgba(119, 136, 153, 0.6);
   border-radius: 5px;
-  width: 70%;
+  width: 65%;
 
   padding: 0px;
   margin-top: 15px;
@@ -56,7 +60,7 @@
 .action-buttons button {
   cursor: pointer;
 
-  padding: 8px 24px;
+  padding: 10px 24px;
   border: none;
 
   background-color: lightslategray;
@@ -79,7 +83,7 @@
 }
 .input-container input {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
   border: 2px solid lightgray;
   border-radius: 5px 0px 0px 5px;
 }

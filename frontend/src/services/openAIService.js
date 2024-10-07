@@ -4,10 +4,13 @@ const openAIChatUrl = "http://127.0.0.1:8000/chat/"
 
 async function getOpenAIResponse(context, message) {
   try {
+    console.log("Getting OpenAI response...");
     const response = await axios.post(openAIChatUrl, null, { params: { prevContext: context, currMessage: message } });
 
-    if (response.data && response.data.response) {
-      return response.data.response;
+    if (response.data) {
+      const extractedResponse = response.data[0].split('Response: ')[1].trim();
+      console.log("Successfully got OpenAI response");
+      return extractedResponse;
     } else { 
       return null; 
     }
@@ -15,4 +18,4 @@ async function getOpenAIResponse(context, message) {
     console.error("Failed to get OpenAI response", error);
     return null;
   }
-}
+} export { getOpenAIResponse };

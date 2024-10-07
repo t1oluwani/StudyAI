@@ -239,7 +239,8 @@ async def get_transcripts():
 async def chat(prevContext: str, currMessage: str):
     try:
         prompt = "Given this context: \"" + prevContext + "\", Respond to this \"" + currMessage + "\""
-        
+        print("Sending Message to AI...")
+             
         completion = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{
@@ -247,7 +248,8 @@ async def chat(prevContext: str, currMessage: str):
               "content": prompt
               }],
         )
-
+        
+        print("AI " + completion.choices[0].message.content)
         return {completion.choices[0].message.content}
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
