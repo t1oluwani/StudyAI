@@ -13,14 +13,14 @@ function FileDrop({ setFile, setTranscriptStatus, setLoadingState }) {
   
   const perform_main_operations = async (file) => {
     console.log("Performing main operations");
-    setLoadingState("Extracting Audio from File...");
 
+    setLoadingState("Extracting Audio from File...");
     const audio_title = await extractAudioFromFile(file); // Wait for extraction
+
     if (audio_title !== null) {
       setLoadingState("Transcribing and Storing Audio...");
-      await transcribeAndStoreAudioFromFile(audio_title);
+      await transcribeAndStoreAudioFromFile(audio_title); // Wait for transcription and storage
       setTranscriptStatus(true);
-
     } else {
       alert("Main Operations Stopped Due to Audio Extraction Failure!");
     }

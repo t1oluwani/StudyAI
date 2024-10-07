@@ -3,21 +3,22 @@ import React from 'react';
 import { extractAudioFromLink } from '../../../services/audioExtractionService';
 import { transcribeAndStoreAudioFromLink } from '../../../services/transcriptionService';
 
-function LinkPaste({ setLink, setTranscriptStatus }) {
-  
+function LinkPaste({ setLink, setTranscriptStatus, setLoadingState }) {
 
   const perform_main_operations = async (link) => {
     console.log("Performing main operations");
 
+    setLoadingState("Extracting Audio from Link...");
     const audio_title = await extractAudioFromLink(link); // Wait for extraction
+
     if (audio_title !== null) {
+      setLoadingState("Transcribing and Storing Audio..."); // Wait for transcription and storage
       await transcribeAndStoreAudioFromLink(audio_title);
       setTranscriptStatus(true);
     } else {
       alert("Main Operations Stopped Due to Audio Extraction Failure!");
-      return;
     }
-    // script sent to AI model
+    setLoadingState("");
 }
 
   const convertToEmbedLink = (link) => {
