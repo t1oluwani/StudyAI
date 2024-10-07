@@ -202,13 +202,13 @@ async def transcribe_and_store_audio(title: str):
         return JSONResponse(status_code=500, content={"message": f"Error: {str(e)}"})
       
     timestamps = []
-    for segment in transcription.segments: # Extract relevant information from segments
-        for word in segment:
-            timestamps.append({
-                "word": word['word'],
-                "start": word['start'],
-                "end": word['end']
-            })
+    # for segment in transcription.segments: # Extract relevant information from segments
+    #     for word in segment:
+    #         timestamps.append({
+    #             "word": word['word'],
+    #             "start": word['start'],
+    #             "end": word['end']
+    #         })
 
     transcript = {
         "video-title": title,
