@@ -1,15 +1,12 @@
 # StudyAI
 
 # TODO
-- Use transcript for prompt
-- Function for responding to chat
-- Frontend stuff, make looks nnice
-- errors show on frontend (console.logs basically)
-- add loading states
-- Transcript displayed as clickable to timestamp
-- Animation (responses look like they are typed out, speed varying)
 - Add drag and drop functionality
-- route pages instead of stacked on top of each other
+- Errors show on frontend (console.logs basically)
+- Add loading states
+- Transcript displayed as clickable to timestamp
+- Do TODEBUG
+- Route pages instead of stacked on top of each other
 - Create verbose READme and link with openapi documentation
 
 # TODEBUG

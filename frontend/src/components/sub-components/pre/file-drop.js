@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
+import { useDropzone } from 'react-dropzone';
 
 import { extractAudioFromFile } from '../../../services/audioExtractionService';
 import { transcribeAndStoreAudioFromFile } from '../../../services/transcriptionService';
@@ -54,28 +55,41 @@ function FileDrop({ setFile, setTranscriptStatus }) {
       setFile(file);
       perform_main_operations(file);
       handleFileClear();
-
-      // console.log(file);
     } else {
       console.error('No file selected');
     }
   }
 
+  // Handling drag-and-drop using react-dropzone
+  const onDrop = useCallback((acceptedFiles) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      if (!(file.type.startsWith('video/') || file.type.startsWith('audio/'))) {
+        alert('File is not a video or audio file. Please upload an MP4 or MP3 file.');
+        handleFileClear();
+        return;
+      }
+      setFileName(file.name);
+    }
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
   return (
     <>
-      <div className="file-drop-area">
+      <div className="file-drop-area" {...getRootProps()}>
+        <input {...getInputProps()} id="file-input" className="file-input" />
         <p>
-          {fileName ? (<> <FontAwesomeIcon icon={faFile} /> {fileName} </>
+          {fileName ? (
+            <>
+              <FontAwesomeIcon icon={faFile} /> {fileName}
+            </>
+          ) : isDragActive ? (
+            'Drop the file here...'
           ) : (
-            'Drop files here or Click to Upload'
+            'Drag and drop a file here, or click to select one'
           )}
         </p>
-        <input
-          type="file"
-          onChange={handleFileChange}
-          className="file-input"
-          id="file-input"
-        />
       </div>
 
       <div className='buttons'>
