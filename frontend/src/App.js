@@ -18,16 +18,15 @@ function App() {
       <PreVideo
         setLink={setURL}
         setFile={setMP4}
-        setTranscriptStatus={setIsTranscriptStored}
-        setLoadingState={setLoadingState} />
+        setLoadingState={setLoadingState}
+        setTranscriptStatus={setIsTranscriptStored} />
       <PostVideo
         link={URL}
         file={MP4}
         setLink={setURL}
         setFile={setMP4}
         transcriptStatus={isTranscriptStored}
-        setTranscriptStatus={setIsTranscriptStored}
-        setLoadingState={setLoadingState} />
+        setTranscriptStatus={setIsTranscriptStored}/>
     </div>
   );
 }
