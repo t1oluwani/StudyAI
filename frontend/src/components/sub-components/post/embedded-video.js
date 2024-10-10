@@ -2,7 +2,7 @@ import "../../../styling/video-side.css";
 import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function EmbeddedVideo({ url, mp4, currTime = 0 }) {
+function EmbeddedVideo({ url, mp4, time}) {
   const [vidUrl, setVidUrl] = useState(url); // Initialize with the original URL
   const videoRef = useRef(null);
 
@@ -18,9 +18,9 @@ function EmbeddedVideo({ url, mp4, currTime = 0 }) {
 
   useEffect(() => {
     if (url) {
-      setVidUrl(`${url}?start=${currTime}`);
+      setVidUrl(`${url}?start=${time}`);
     }
-  }, [currTime, url]);
+  }, [time, url]);
 
   return (
     <div className="embedded-video">

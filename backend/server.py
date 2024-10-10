@@ -244,8 +244,8 @@ async def get_transcripts():
 @app.post("/chat/")
 async def chat(prevContext: str, currMessage: str):
   try:
-    prompt = "Answer as a chatbot named StudyAI: Given this transcript and context: \"" + prevContext + "\", Respond to this \"" + currMessage + "\""
-    refinedPrompt = prompt + "Please respond naturally and directly, without including any prefixes"
+    prompt = "Given this transcript and this existing convo between me and you: \"" + prevContext + "\", Respond to this \"" + currMessage + "\""
+    refinedPrompt = "Answer as a chatbot named StudyAI: " + prompt + " Please answer as if the user is me and the chatbot is you (don't say user or chatbot), respond naturally and directly, without including any prefixes, focusing on relevant information or context from the transcript. Refer to the transcript as the video."
     print("Sending Message to AI...")
            
     completion = client.chat.completions.create(
