@@ -21,3 +21,12 @@
 .subtitles {
   text-align: start;
 }
+
+.subtitle-text {
+  cursor: pointer;
+}
+
+.subtitle-text:hover {
+  border: 1px solid lightblue;
+  transform: scale(1.1);
+}
