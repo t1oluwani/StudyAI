@@ -202,8 +202,7 @@ async def transcribe_and_store_audio(title: str):
   timestamps = []
   for segment in transcription.segments: # Extract relevant information from segments
     timestamps.append({
-      "start": segment.start,
-      "end": segment.end,
+      "start": int(segment.start),
       "text": segment.text,
     })
 
