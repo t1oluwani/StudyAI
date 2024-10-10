@@ -2,6 +2,7 @@
 
 # TODO
 - Transcript displayed as clickable to timestamp
+- add name is studyai to context
 - Do TODEBUG
 - Route pages instead of stacked on top of each other
 - possiblity of start script or makefile (regen requirements)
