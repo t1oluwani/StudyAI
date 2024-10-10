@@ -4,21 +4,10 @@ import MessageList from "./sub-components/message-list";
 import { getOpenAIResponse } from "../../../services/openAIService";
 
 function ChatScreen({ transcript }) {
-  const [context, setContext] = useState("");
+  const [context, setContext] = useState(transcript);
   const [messages, setMessages] = useState([
     { role: "chat", text: 'I’ve got your video ready. What would you like to know?' }, // Initial message
   ]);
-
-  useEffect(() => { // Set the context to the transcript if it exists and set to a default message if it doesn't
-    if (!context) {
-      if (transcript) {
-        setContext(transcript);
-      } else {
-        setContext("Hi! I am a chat bot!");
-      }
-      return;
-    }
-  }, [transcript]);
 
   function createMessage(role, text) {
     return { role: role, text: text };
