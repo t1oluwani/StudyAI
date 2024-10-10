@@ -48,13 +48,15 @@ function PostVideo({ link, file, setLink, setFile, transcriptStatus, setTranscri
     stringTranscript = (verboseTranscript.map(item => `${formatTime(item.start)}: ${item.text}`)).join(', ');
   }
 
-  console.log("String Transcript:", stringTranscript)
+  const handleClick = (time) => {
+    setCurrTime(time);
+  };
 
   return (
     <div className="post-video">
       <div className="video-side">
         <EmbeddedVideo url={link} mp4={file} time={currTime}/>
-        <VideoTranscipt transcript={transcriptDict} setTime={setCurrTime} />
+        <VideoTranscipt transcript={transcriptDict} handleClick={handleClick} />
       </div>
       <div className="chat-side">
         <ChatScreen transcript={stringTranscript} />
