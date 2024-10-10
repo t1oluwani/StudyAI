@@ -1,14 +1,14 @@
 import "../../../styling/video-side.css";
 import Subtitle from "./sub-components/subtitle";
 
-function VideoTranscript({ transcript }) {
+function VideoTranscript({ transcript, setTime }) {
 
   return (
     <div className="video-transcript">
       <h3>Video Transcript</h3>
       <div className="subtitles">
         {Object.entries(transcript).map(([start, text]) => (
-          <Subtitle key={start} timestamp={start} subtitle={text}/>
+          <Subtitle key={start} timestamp={start} subtitle={text} setTime={setTime}/>
         ))}
       </div>
     </div>

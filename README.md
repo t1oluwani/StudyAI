@@ -2,7 +2,6 @@
 
 # TODO
 - Transcript displayed as clickable to timestamp
-- add name is studyai to context
 - Do TODEBUG
 - fix console errors
 - Route pages instead of stacked on top of each other

@@ -8,6 +8,7 @@ import ChatScreen from './sub-components/post/chat-screen';
 import { getTranscriptionResult } from '../services/transcriptionService';
 
 function PostVideo({ link, file, setLink, setFile, transcriptStatus, setTranscriptStatus }) {
+  const [currTime, setCurrTime] = useState(0); // Current time of the video in seconds
   const [plainTranscript, setPlainTranscript] = useState(null);
   const [verboseTranscript, setVerboseTranscript] = useState(null);
 
@@ -52,8 +53,8 @@ function PostVideo({ link, file, setLink, setFile, transcriptStatus, setTranscri
   return (
     <div className="post-video">
       <div className="video-side">
-        <EmbeddedVideo url={link} mp4={file} />
-        <VideoTranscipt transcript={transcriptDict} />
+        <EmbeddedVideo url={link} mp4={file} time={currTime}/>
+        <VideoTranscipt transcript={transcriptDict} setTime={setCurrTime} />
       </div>
       <div className="chat-side">
         <ChatScreen transcript={stringTranscript} />
