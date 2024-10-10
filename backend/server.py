@@ -244,7 +244,7 @@ async def get_transcripts():
 @app.post("/chat/")
 async def chat(prevContext: str, currMessage: str):
   try:
-    prompt = "Answer as a chatbot named StudyAI: Given this context: \"" + prevContext + "\", Respond to this \"" + currMessage + "\""
+    prompt = "Answer as a chatbot named StudyAI: Given this transcript and context: \"" + prevContext + "\", Respond to this \"" + currMessage + "\""
     refinedPrompt = prompt + "Please respond naturally and directly, without including any prefixes"
     print("Sending Message to AI...")
            
