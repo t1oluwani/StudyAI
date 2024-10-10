@@ -4,6 +4,7 @@
 - Transcript displayed as clickable to timestamp
 - add name is studyai to context
 - Do TODEBUG
+- fix console errors
 - Route pages instead of stacked on top of each other
 - possiblity of start script or makefile (regen requirements)
 - Create verbose READme and link with openapi documentation and setp up instracutions
