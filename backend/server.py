@@ -17,14 +17,14 @@ import yt_dlp  # For downloading audio from YouTube
 app = FastAPI()  # Create FastAPI instance
 
 # Load OpenAI API key from secret file
-with open("./keys/secret_key.txt", "r") as f:
+with open("./keys/openai_key.txt", "r") as f:
   api_key = f.read().strip()
 
 client = OpenAI(api_key=api_key)  # Create OpenAI instance
 
 # Initialize Firebase instance
 cred = credentials.Certificate(
-  "./keys/studyai-database-firebase-adminsdk-f63n0-883759a905.json"
+  "./keys/firebase_key.json"
 )
 firebase_admin.initialize_app(
   cred, {"databaseURL": "https://studyai-database-default-rtdb.firebaseio.com"}
@@ -62,9 +62,10 @@ app.add_middleware(
   allow_headers=["*"],  # Allow all headers
 )
 
-# Accesses uploads directory and creates it if it doesn't exist
-UPLOAD_DIR = Path("uploads")
+UPLOAD_DIR = Path("uploads") # Path to the uploads directory in the backend
 UPLOAD_DIR.mkdir(exist_ok=True)
+VIDEOS_DIR = Path("..\\frontend\\public\\videos") # Path to the videos directory in the frontend
+VIDEOS_DIR.mkdir(exist_ok=True)
 
 # ROUTES
 
@@ -79,13 +80,13 @@ async def upload_audio_from_file(file: UploadFile = File(...)):
       )
 
     file_path = (
-      UPLOAD_DIR / file.filename
+      VIDEOS_DIR / file.filename
     )  # Path for videofile in uploads directory
 
     if os.path.exists(file_path):
       return {
         "audio_file": str(file.filename),
-        "message": "Audio already exists in uploads directory.",
+        "message": "Audio already exists.",
       }
     
     with open(file_path, "wb") as f:
@@ -99,7 +100,8 @@ async def upload_audio_from_file(file: UploadFile = File(...)):
 
     elif file.filename.endswith(".mp4"):
       # Extract audio from video and save as mp3
-      audio_file_name = file.filename
+      # audio_file_name = file.filename
+      audio_file_name = f"{file.filename[:-4]}.mp3" # Remove .mp4 extension and add .mp3 extension
       audio_path = (
         UPLOAD_DIR / audio_file_name
       )  # Path for audio file in uploads directory
@@ -115,8 +117,6 @@ async def upload_audio_from_file(file: UploadFile = File(...)):
           "audio_file": None,
           "message": "Error loading audio from video.",
         })
-
-      # file_path.unlink() # Delete the temp file
 
       return {
         "audio_file": str(audio_file_name),
