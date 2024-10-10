@@ -202,20 +202,19 @@ async def transcribe_and_store_audio(title: str):
     
   timestamps = []
   for segment in transcription.segments: # Extract relevant information from segments
-    print(segment)
-    # timestamps.append({
-    #   "start": segment['start'],
-    #   "end": segment['end'],
-    #   "text": segment['word']
-    # })
+    timestamps.append({
+      "start": segment.start,
+      "end": segment.end,
+      "text": segment.text,
+    })
 
   transcript = {
     "video-title": title,
     "transcript": transcription.text,
-    "segments": str(transcription.segments),
+    "segments": timestamps,
     # "segments": str(timestamps),  # Essentially a verbose transcript extracted from segments 
   }
-  print(transcript)
+    
   print("Storing transcript in database...")
   try:
     store_in_database(transcript)
