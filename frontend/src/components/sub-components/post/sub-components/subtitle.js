@@ -1,4 +1,4 @@
-function Subtitle({ timestamp, subtitle }) {
+function Subtitle({ timestamp, subtitle, handleClick }) {
 
   return (
     <a className="subtitle-text" onClick={() => handleClick(parseFloat(timestamp))}>
