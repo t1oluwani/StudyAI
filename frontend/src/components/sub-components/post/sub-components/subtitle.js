@@ -1,7 +1,7 @@
 function Subtitle({ timestamp, subtitle, handleClick }) {
 
   return (
-    <a className="subtitle-text" onClick={() => handleClick(parseFloat(timestamp))}>
+    <a className="subtitle-text" onClick={() => handleClick(timestamp)}>
       {subtitle}
     </a>
   );

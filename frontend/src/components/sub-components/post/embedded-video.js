@@ -6,8 +6,9 @@ function EmbeddedVideo({ url, mp4, time}) {
   const [vidUrl, setVidUrl] = useState(url); // Initialize with the original URL
   const videoRef = useRef(null);
 
-  console.log("URL:", url);
   console.log("vidUrl:", vidUrl);
+  console.log("url:", url);
+  console.log("time:", time);
 
   // Update the current time of the video when currTime changes
   // useEffect(() => {
@@ -20,6 +21,8 @@ function EmbeddedVideo({ url, mp4, time}) {
     if (url) {
       setVidUrl(`${url}?start=${time}`);
     }
+    const modifiedVidUrl = vidUrl.replace(/(start=)\d+/, `$1${time}`);
+    setVidUrl(modifiedVidUrl);
   }, [time, url]);
 
   return (
