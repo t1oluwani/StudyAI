@@ -9,12 +9,14 @@ import { getTranscriptionResult } from '../services/transcriptionService';
 
 function PostVideo({ link, file, setLink, setFile, transcriptStatus, setTranscriptStatus }) {
   const [transcript, setTranscript] = useState(null);
+  const [verboseTranscript, setVerboseTranscript] = useState(null);
 
   useEffect(() => {
     if ((link || file) && transcriptStatus) {
       async function fetchTranscription() {
         const result = await getTranscriptionResult();
-        setTranscript(result);
+        setTranscript(result[0]);
+        setVerboseTranscript(result[1]);
 
         // Reset the link, file and transciption storing status after fetching the transcript
         setLink('');
@@ -30,7 +32,7 @@ function PostVideo({ link, file, setLink, setFile, transcriptStatus, setTranscri
     <div className="post-video">
       <div className="video-side">
         <EmbeddedVideo url={link} mp4={file} />
-        <VideoTranscipt transcript={transcript} />
+        <VideoTranscipt transcript={verboseTranscript} />
       </div>
       <div className="chat-side">
         <ChatScreen transcript={transcript} />
