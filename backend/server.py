@@ -1,5 +1,4 @@
 import os
-import ast  # For converting string representation of dictionary to dictionary
 import traceback  # For extensive debugging
 from pathlib import Path
 from openai import OpenAI
@@ -212,9 +211,8 @@ async def transcribe_and_store_audio(title: str):
     "video-title": title,
     "transcript": transcription.text,
     "segments": timestamps,
-    # "segments": str(timestamps),  # Essentially a verbose transcript extracted from segments 
   }
-    
+
   print("Storing transcript in database...")
   try:
     store_in_database(transcript)
@@ -247,7 +245,7 @@ async def get_transcripts():
 @app.post("/chat/")
 async def chat(prevContext: str, currMessage: str):
   try:
-    prompt = "Given this context: \"" + prevContext + "\", Respond to this \"" + currMessage + "\""
+    prompt = "Answer as a chatbot named StudyAI: Given this context: \"" + prevContext + "\", Respond to this \"" + currMessage + "\""
     refinedPrompt = prompt + "Please respond naturally and directly, without including any prefixes"
     print("Sending Message to AI...")
            
