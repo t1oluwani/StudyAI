@@ -83,14 +83,9 @@ async def upload_audio_from_file(file: UploadFile = File(...)):
       VIDEOS_DIR / file.filename
     )  # Path for videofile in uploads directory
 
-    if os.path.exists(file_path):
-      return {
-        "audio_file": str(file.filename),
-        "message": "Audio already exists.",
-      }
-    
-    with open(file_path, "wb") as f:
-      f.write(await file.read())
+    if not os.path.exists(file_path):
+      with open(file_path, "wb") as f:
+        f.write(await file.read())
 
     if file.filename.endswith(".mp3"):
       return {
@@ -105,6 +100,12 @@ async def upload_audio_from_file(file: UploadFile = File(...)):
       audio_path = (
         UPLOAD_DIR / audio_file_name
       )  # Path for audio file in uploads directory
+      
+      if os.path.exists(audio_path):
+        return {
+          "audio_file": str(audio_file_name),
+          "message": "Audio already exists.",
+        }
 
       try:
         audio = AudioSegment.from_file(file_path)
