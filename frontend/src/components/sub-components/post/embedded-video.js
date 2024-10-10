@@ -2,15 +2,19 @@ import "../../../styling/video-side.css";
 import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function EmbeddedVideo({ url, mp4, time}) {
+function EmbeddedVideo({ url, mp4, time }) {
   const [vidUrl, setVidUrl] = useState(url); // Initialize with the original URL
-  const [videoSrc, setVideoSrc] = useState('');
+  const [vidSrc, setVidSrc] = useState(''); // Initialize with the path to the video file
   const videoRef = useRef(null);
-  const vidName = mp4.name;
-  const vidPath = '/videos/' + vidName;
-  console.log("Video Path:", vidPath)
 
-  // Update the video URL when the time changes
+  // Hold on to src for video
+  useEffect(() => {
+    if (mp4) {
+      setVidSrc('/videos/' + mp4.name);
+    }
+  }, [mp4]);
+
+  // Hold on to url for irame and update the video URL when the time changes
   useEffect(() => {
     if (url) {
       setVidUrl(`${url}?start=${time}`);
@@ -19,7 +23,6 @@ function EmbeddedVideo({ url, mp4, time}) {
     setVidUrl(modifiedVidUrl);
   }, [time, url]);
 
-  console.log("MP4:", mp4);
   // Update the video time when the time changes
   // useEffect(() => {
   //   if (videoRef.current && !isNaN(currTime)) {
@@ -27,27 +30,30 @@ function EmbeddedVideo({ url, mp4, time}) {
   //   }
   // }, [currTime]);
 
- 
-
   return (
     <div className="embedded-video">
       <h3>Embedded Video</h3>
-      {/* {url ? ( */}
-      {/* <iframe
+      {vidUrl ? (
+      <iframe
         width="100%"
         height="100%"
         id="embeddedVideo"
         alt="Embedded YouTube Video"
         src={vidUrl}
         allowFullScreen>
-      </iframe> */}
-      {/* ) : mp4 ? ( */}
-        <video width="100%" height="100%" controls ref={videoRef}>
-          <source src={vidPath} type="video/mp4" />
-        </video>
-      {/* ) : (
+      </iframe>
+      ) : vidSrc ? (
+      <video
+        controls
+        width="100%"
+        height="100%"
+        key={vidSrc}
+        ref={videoRef}>
+        <source src={vidSrc} type="video/mp4" />
+      </video>
+      ) : (
         <p> No Video Available <i className="fas fa-face-frown"></i></p>
-      )} */}
+      )}
     </div>
   )
 }

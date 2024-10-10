@@ -1,3 +1,8 @@
+.embedded-video {
+  display: flex;
+  flex-direction: column;
+}
+
 .embedded-video iframe, .embedded-video video {
   height: 45vh;
   width: 45vw;
