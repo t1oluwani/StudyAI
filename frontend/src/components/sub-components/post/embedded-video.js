@@ -23,12 +23,13 @@ function EmbeddedVideo({ url, mp4, time }) {
     setVidUrl(modifiedVidUrl);
   }, [time, url]);
 
-  // Update the video time when the time changes
-  // useEffect(() => {
-  //   if (videoRef.current && !isNaN(currTime)) {
-  //     videoRef.current.currentTime = currTime;
-  //   }
-  // }, [currTime]);
+  useEffect(() => {
+    if (videoRef.current && !isNaN(time)) {
+      videoRef.current.currentTime = time;
+    }
+  }, [time]);
+
+  console.log(vidSrc);
 
   return (
     <div className="embedded-video">
