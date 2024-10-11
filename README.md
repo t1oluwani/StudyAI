@@ -23,8 +23,8 @@ To get started with StudyAI, follow these steps:
    ```
 
 3. Generate your API and Firebase database keys, and place them in the appropriate locations:
-   - `openai_key.txt`
-   - `firebase_key.json`
+   - `backend\keys\openai_key.txt`
+   - `backend\keys\firebase_key.json`
 
 4. Navigate to the `start.sh` file and run it:
    ```bash
