@@ -1,5 +1,6 @@
 import './App.css';
 import { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 import PreVideo from './components/pre-video';
 import PostVideo from './components/post-video';
@@ -12,22 +13,35 @@ function App() {
   const [loadingState, setLoadingState] = useState("");
 
   return (
-    <div className="App">
-      <LoadingOverlay loadingState={loadingState} />
-
-      <PreVideo
-        setLink={setURL}
-        setFile={setMP4}
-        setLoadingState={setLoadingState}
-        setTranscriptStatus={setIsTranscriptStored} />
-      <PostVideo
-        link={URL}
-        file={MP4}
-        setLink={setURL}
-        setFile={setMP4}
-        transcriptStatus={isTranscriptStored}
-        setTranscriptStatus={setIsTranscriptStored}/>
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PreVideo
+              setLink={setURL}
+              setFile={setMP4}
+              setLoadingState={setLoadingState}
+              setTranscriptStatus={setIsTranscriptStored}
+            />
+          }
+        />
+        
+        <Route
+          path="/post-video"
+          element={
+            <PostVideo
+              link={URL}
+              file={MP4}
+              setLink={setURL}
+              setFile={setMP4}
+              transcriptStatus={isTranscriptStored}
+              setTranscriptStatus={setIsTranscriptStored}
+            />
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 
