@@ -14,7 +14,7 @@ To get started with StudyAI, follow these steps:
 
 1. Clone or fork the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/t1oluwani/StudyAI.git
    ```
    
 2. Install the required packages:
