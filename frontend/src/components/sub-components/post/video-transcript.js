@@ -1,12 +1,16 @@
 import "../../../styling/video-side.css";
+import Subtitle from "./sub-components/subtitle";
 
-function VideoTranscript({ transcript }) {
-  const displayedTranscript = transcript || "";
+function VideoTranscript({ transcript, handleClick }) {
 
   return (
     <div className="video-transcript">
       <h3>Video Transcript</h3>
-      <p>{displayedTranscript}</p>
+      <div className="subtitles">
+        {Object.entries(transcript).map(([start, text]) => (
+          <Subtitle key={start} timestamp={start} subtitle={text} handleClick={handleClick}/>
+        ))}
+      </div>
     </div>
   );
 }

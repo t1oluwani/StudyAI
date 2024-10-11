@@ -1,9 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { extractAudioFromLink } from '../../../services/audioExtractionService';
 import { transcribeAndStoreAudioFromLink } from '../../../services/transcriptionService';
 
 function LinkPaste({ setLink, setTranscriptStatus, setLoadingState }) {
+  const navigate = useNavigate(); // Hook to navigate programmatically
 
   const perform_main_operations = async (link) => {
     console.log("Performing main operations");
@@ -43,6 +45,7 @@ function LinkPaste({ setLink, setTranscriptStatus, setLoadingState }) {
 
       if (embedLink) {
         setLink(embedLink);
+        navigate('/study'); // Navigate to post-video page
         perform_main_operations(link);
         handleLinkClear();
       } else {

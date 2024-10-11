@@ -2,7 +2,7 @@ import axios from "axios";
 
 const transcribeUrl = "http://127.0.0.1:8000/transcribe/"
 
-async function transcribeAndStoreAudioFromFile(audioTitle) {  
+async function transcribeAndStoreAudioFromFile(audioTitle) {
   try {
     console.log("Transcribing and Storing:", audioTitle);
     const response = await axios.post(transcribeUrl, null, { params: { title: audioTitle } }); // Initiate transcription
@@ -41,15 +41,18 @@ async function getTranscriptionResult() {
   try {
     const response = await axios.get(transcribeUrl); // Get transcription result
 
-    if (response.data && response.data.transcript) {
-      return response.data.transcript;
-    } else { 
-      return null; 
+    if (response.data && response.data.transcript && response.data.segments) {
+      return [
+        response.data.transcript,
+        response.data.segments,
+      ]
+    } else {
+      return null;
     }
   } catch (error) {
     alert("Could Not Get Transcription!");
     console.error("Failed to get transcription result", error);
     return null;
   }
-} export { getTranscriptionResult };  
+} export { getTranscriptionResult };
 
