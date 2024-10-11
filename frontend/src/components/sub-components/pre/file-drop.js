@@ -38,7 +38,7 @@ function FileDrop({ setFile, setTranscriptStatus, setLoadingState }) {
     const file = document.getElementById('file-input').files[0];
     if (file) {
       setFile(file);
-      navigate('/post-video'); // Navigate to post-video page
+      navigate('/study'); // Navigate to post-video page
       perform_main_operations(file);
       handleFileClear();
     } else {

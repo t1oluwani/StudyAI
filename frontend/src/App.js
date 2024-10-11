@@ -28,7 +28,7 @@ function App() {
         />
         
         <Route
-          path="/post-video"
+          path="/study"
           element={
             <PostVideo
               link={URL}

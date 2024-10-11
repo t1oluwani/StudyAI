@@ -45,7 +45,7 @@ function LinkPaste({ setLink, setTranscriptStatus, setLoadingState }) {
 
       if (embedLink) {
         setLink(embedLink);
-        navigate('/post-video'); // Navigate to post-video page
+        navigate('/study'); // Navigate to post-video page
         perform_main_operations(link);
         handleLinkClear();
       } else {
