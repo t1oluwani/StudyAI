@@ -1,5 +1,5 @@
 import "../../../styling/video-side.css";
-import Subtitle from "./sub-components/subtitle";
+import Subtitle from "./sub-components/subtitle.js";
 
 function VideoTranscript({ transcript, handleClick }) {
 
