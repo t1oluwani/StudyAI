@@ -17,16 +17,34 @@ To get started with StudyAI, follow these steps:
    git clone https://github.com/t1oluwani/StudyAI.git
    ```
    
-2. Install the required packages:
+  2. **Create and Activate Virtual Environment** (Optional, but Highly Recommended):
+   - Navigate to the project directory:
+     ```bash
+     cd StudyAI
+     ```
+   - Create a virtual environment using `venv`:
+     ```bash
+     python -m venv venv
+     ```
+   - Activate the virtual environment:
+     - On **Windows**:
+       ```bash
+       venv\Scripts\activate
+       ```
+     - On **macOS/Linux**:
+       ```bash
+       source venv/bin/activate
+       ```
+3. Install the required packages:
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Generate your API and Firebase database keys, and place them in the appropriate locations:
+4. Generate your API and Firebase database keys, and place them in the appropriate locations:
    - `backend\keys\openai_key.txt`
    - `backend\keys\firebase_key.json`
 
-4. Navigate to the `start.sh` file and run it:
+5. Navigate to the `start.sh` file and run it:
    ```bash
    chmod +x start.sh
    ./start.sh
