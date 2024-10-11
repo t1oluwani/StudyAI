@@ -10,7 +10,7 @@
 }
 
 .video-transcript {
-  background-color: white;
+  background-color: aliceblue;
   overflow-y: scroll;
 
   border: 2px solid lightgray;
@@ -29,9 +29,16 @@
 
 .subtitle-text {
   cursor: pointer;
+  display: inline-block;
+  margin: 2px;
+  padding: 2px 3px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .subtitle-text:hover {
-  border: 1px solid lightblue;
-  transform: scale(1.1);
+  border: 1px solid #0078D7;
+  transform: scale(1.05);
+  margin: 0 5px;
+  border-radius: 5px;
+  background-color: rgba(115, 191, 238, 0.689); /* Light blue background on hover */
 }

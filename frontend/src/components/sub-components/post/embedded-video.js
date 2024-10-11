@@ -7,14 +7,17 @@ function EmbeddedVideo({ url, mp4, time }) {
   const [vidSrc, setVidSrc] = useState(''); // Initialize with the path to the video file
   const videoRef = useRef(null);
 
-  // Hold on to src for video
+  // Set the video source when the mp4 file is available + Update the video time when the time changes
   useEffect(() => {
     if (mp4) {
       setVidSrc('/videos/' + mp4.name);
     }
-  }, [mp4]);
+    if (videoRef.current && !isNaN(time)) {
+      videoRef.current.currentTime = time;
+    }
+  }, [time, mp4]);
 
-  // Hold on to url for irame and update the video URL when the time changes
+  // Set the video URL when the URL is available + Update the video URL when the time changes
   useEffect(() => {
     if (url) {
       setVidUrl(`${url}?start=${time}`);
@@ -22,14 +25,6 @@ function EmbeddedVideo({ url, mp4, time }) {
     const modifiedVidUrl = vidUrl.replace(/(start=)\d+/, `$1${time}`);
     setVidUrl(modifiedVidUrl);
   }, [time, url]);
-
-  useEffect(() => {
-    if (videoRef.current && !isNaN(time)) {
-      videoRef.current.currentTime = time;
-    }
-  }, [time]);
-
-  console.log(vidSrc);
 
   return (
     <div className="embedded-video">

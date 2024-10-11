@@ -53,6 +53,11 @@ function FileDrop({ setFile, setTranscriptStatus, setLoadingState }) {
         return;
       }
       setFileName(file.name);
+      // Set the file input value to the dropped file
+      const input = document.getElementById('file-input');
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      input.files = dataTransfer.files;
     }
   }, []);
 

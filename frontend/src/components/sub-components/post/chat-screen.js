@@ -9,6 +9,15 @@ function ChatScreen({ transcript }) {
     { role: "chat", text: 'I’ve got your video ready. What would you like to know?' }, // Initial message
   ]);
 
+  console.log("Transcript: ", transcript);
+  console.log("Context: ", context);
+
+  useEffect(() => {
+    if (!context) {
+      setContext(transcript);
+    }
+  }, [transcript, context]);
+
   function createMessage(role, text) {
     return { role: role, text: text };
   }
