@@ -1,0 +1,10 @@
+# Ignore the virtual environment (This one is specific to my enivronment, you'll have to change it to your own)
+studyai_env/
+
+# Prevent openai and firebase realtime db keys from being pushed to the repository
+backend/keys/
+
+# Ignore the uploaded audio and video files
+backend/uploads/*.mp3
+backend/uploads/*.mp4
+frontend/public/videos/*.mp4
