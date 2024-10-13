@@ -7,7 +7,31 @@
   align-items: center;
   height: 100vh;
   width: auto;
-  background-color: whitesmoke;
+  background-color: aliceblue;
+}
+
+.header-container {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  left: 10px;
+
+  display: flex;
+  align-items: center;
+}
+
+.pre-video h1 {
+  background: linear-gradient(to right, cyan, darkblue, cyan);
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 2.75rem;
+  margin: 0;
+}
+
+.logo {
+  width: 75px;
+  height: auto;
+  margin-right: 10px;
 }
 
 .file-drop-area {
@@ -46,7 +70,7 @@
 }
 
 .file-clear, .file-upload {
-  background-color: lightslategray;
+  background-color: cornflowerblue;
   color: white;
   padding: 5px 15px; 
   font-size: 18px; 
