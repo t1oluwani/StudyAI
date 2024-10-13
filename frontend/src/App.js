@@ -14,6 +14,7 @@ function App() {
 
   return (
     <Router>
+      <LoadingOverlay loadingState={loadingState} />
       <Routes>
         <Route
           path="/"
