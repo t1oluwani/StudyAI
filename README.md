@@ -45,7 +45,7 @@ To get started with StudyAI, follow these steps:
    pip install -r requirements.txt
    ```
 
-4. Generate your API and Firebase database keys, and place them in the appropriate locations:
+4. Generate your OpenAI and Firebase-Database keys, and place them in the appropriate locations:
    - `backend\keys\openai_key.txt`
    - `backend\keys\firebase_key.json`
 
