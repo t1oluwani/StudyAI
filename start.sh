@@ -7,7 +7,7 @@
 # Navigate to backend directory and start FastAPI server
 echo "Starting FastAPI server..."
 cd backend
-uvicorn server:app --reload &  
+uvicorn server:app &  
 
 # Navigate to frontend directory and start React app
 echo "Starting React frontend..."
