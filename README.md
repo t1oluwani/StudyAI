@@ -55,6 +55,12 @@ To get started with StudyAI, follow these steps:
    ./start.sh
    ```
 
+6. Open your browser and go to:
+   ```bash
+   http://localhost:3000
+   ```
+   *(3000 is the default react development server, but if that port is in use, React will automatically choose another, double check in terminal)*
+
 ## Usage
 
 I created StudyAI to be best utilized for studying purposes, particularly for students preparing for exams and need to cram tedious lectures. For instance, if your professor posts their lectures on YouTube or if they let you download the recordings, you can use StudyAI to help you study. The app allows you to:
