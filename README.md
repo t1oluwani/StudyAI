@@ -81,9 +81,8 @@ I created StudyAI to be best utilized for studying purposes, particularly for st
 
 ## API Documentation
 
-API documentation is available at: [http://127.0.0.1:8000/docs#/](http://127.0.0.1:8000/docs#/)
-
 The API includes:
+- **DOCS /docs#**: API Documentation
 - **POST /upload-from-file**: Extract and upload a audio from a local file.
 - **POST /upload-from-link**: Extract and upload a video using a YouTube link.
 - **POST /transcribe**: Generates transcript from audio and stores it in the database
