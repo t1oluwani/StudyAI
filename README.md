@@ -10,8 +10,10 @@ StudyAI is an interactive study software designed to enhance your learning exper
 - Interactive buttons to summarize content, highlight key points, and generate quizzes based on the video's information.
 
 # Demo
-Watch the demo video showcasing the use of StudyAI. In this video, I demonstrate how to upload a video, interact with the transcript, ask questions to the AI chatbot, and explore the application's key features:<br>
-https://vimeo.com/1019093746?share=copy
+Watch the demo video showcasing the use of StudyAI. In this video, I demonstrate how to upload a video, interact with the transcript, ask questions to the AI chatbot, and explore the application's key features: [Vimeo](https://vimeo.com/1019093746?share=copy) (uncompressed)
+<br>
+
+<video src="https://github.com/user-attachments/assets/82d0e466-4fed-4c61-b5ea-6da982c69edf" controls width="600"></video>
 
 ## Installation
 
